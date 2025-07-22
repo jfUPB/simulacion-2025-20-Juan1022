@@ -7,7 +7,7 @@
 
 *Piensa y describe en una sola frase y en tus propias palabras cómo la aleatoriedad influye en el arte generativo.*
 
->**📝 Bitácora (Respuesta)**
+>**📝 Bitácora (Respuesta):**
 >
 >La aletoreidad le aplica una capa mucho más abierta e interpretativa al arte, logrando transmitir varios conceptos de una misma experiencia.
 
@@ -108,7 +108,7 @@ class Walker {
 
 *- Modifica el código de la caminata aleatoria para que utilice una distribución no uniforme, favoreciendo el movimiento hacia la derecha.*
 
->**📝 Bitácora (Respuesta)**
+>**📝 Bitácora (Respuesta):**
 >
 > En una distribución uniforme por ejemplo todo los valores que pueden salir tienden a salir con la una regularidad parecida y en una distribución no uniforme como la Gaussiana, los valores tienden a agruparse y hay un grupo de valores que tienden a repetirse más que otros.
 
@@ -144,3 +144,53 @@ function draw() {
 
 ```
 De está manera los valores se concentran entre el 50 y el 100 que pues representan el lado derecho del canva.
+
+## Actividad 05
+### Distribución Normal
+
+*Una vez has entendido el concepto de distribución normal, vas a pensar en una nueva manera de visualizarlo.*
+
+*- Crea un nuevo sketch en p5.js que represente una distribución normal.*
+
+*- Copia el código en tu bitácora.*
+
+*- Coloca en enlace a tu sketch en p5.js en tu bitácora.*
+
+*- Selecciona una captura de pantalla de tu sketch y colócala en tu bitácora.*
+
+>**📝 Bitácora (Respuesta):**
+>
+> Utilicé una distribución normal para representar estrellas en el cielo el cual hace uso de la distribución Gaussiana para agrupar las estrellas en la parte superior del canva
+>
+```javascript
+let stars = [];
+
+function setup() {
+  createCanvas(400, 400);
+  background(0);
+  noLoop();
+
+  for (let i = 0; i < 1000; i++) {
+    let x = random(width);        
+    let y = randomGaussian(100, 50);
+    stars.push({ x, y });
+  }
+}
+
+function draw() {
+  background(0);
+
+  noStroke();
+  fill(255, 255, 0);
+
+  for (let star of stars) {
+    if (star.y >= 0 && star.y <= height) {
+      circle(star.x, star.y, random(1, 2.5));
+    }
+  }
+}
+```
+**Enlace:**
+https://editor.p5js.org/Juan1022/sketches/fWXKu8zKT
+
+<img width="494" height="496" alt="image" src="https://github.com/user-attachments/assets/c9c6c0b9-281b-4b4d-912c-1f2d62803f7d" />
