@@ -26,3 +26,7 @@
 >**📝 Bitácora (Respuesta)** 
 > - El papel que toma la aletoreidad en la obra de Sofi viene de la mano con las paletas de colores y el movimientos de las esferas que en conjunto pueden generar ambientes bastante organicos con distintas vibras.
 > - En los videojuegos y la animación he encontrado ejemplos donde la aleatoriedad se aplica de forma poderosa, especialmente a través de la música. En títulos como Death Stranding y Outer Wilds, la banda sonora suena de forma aleatoria durante el gameplay. Esto permite que un momento simple o aparentemente monótono se transforme, de forma inesperada, en una experiencia emotiva o impactante.
+>
+> Acá hay un link que lleva a un momemnto grabado que ejemplifica de lo que estoy hablando:
+>
+> https://youtu.be/fd19DiyG8AM?si=DlDZt4iwVdclTidr&t=96
