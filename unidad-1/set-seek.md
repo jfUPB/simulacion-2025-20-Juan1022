@@ -93,3 +93,7 @@ class Walker {
 }
 ```
 Lo que espero que pase con este codigo es que el walker empiece a moverse desde el centro de la pantalla y vaya pintando la parte izquierda de la pantalla.
+
+**Despues de la prueba**
+
+No ocurrió lo que queria, el walker solo empezó a ir hacia arriba, siento que tengo un error en como están distribuidos los valores del choice.
