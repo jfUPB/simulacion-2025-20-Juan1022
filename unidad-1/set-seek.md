@@ -30,3 +30,66 @@
 > Acá hay un link que lleva a un momemnto grabado que ejemplifica de lo que estoy hablando:
 >
 > https://youtu.be/fd19DiyG8AM?si=DlDZt4iwVdclTidr&t=96
+
+
+## Actividad 03
+### Caminatas aleatorias
+
+*Usando de referencia la unidad 0: Randomness del libro guia "The Nature of Code"*
+
+**Preguntas**
+**Realiza el siguiente experimento y reporta los resultados en tu bitácora:**
+
+*- Modifica el código del ejemplo Example 0.1: A Traditional Random Walk.*
+
+*- Antes de ejecutar el código, escribe en tu bitácora qué esperas que suceda.*
+
+*- Ejecuta el código y escribe en tu bitácora qué sucedió realmente.*
+
+*- Ocurrió lo que esperabas? ¿Por qué crees que sí o por qué crees que no?*
+
+>**📝 Bitácora (Respuesta)**
+
+```javascript
+// The Nature of Code
+// Daniel Shiffman
+// http://natureofcode.com
+
+let walker;
+
+function setup() {
+  createCanvas(640, 240);
+  walker = new Walker();
+  background(255);
+}
+
+function draw() {
+  walker.step();
+  walker.show();
+}
+
+class Walker {
+  constructor() {
+    this.x = width / 2;
+    this.y = height / 2;
+  }
+
+  show() {
+    stroke(0);
+    point(this.x, this.y);
+  }
+
+  step() {
+    const choice = floor(random(1)); //Aqui el valor random porque voy a trabajar con probabilidades bastante distantes.
+    if (choice == 0.5) {
+      this.y++; // Esto hará que haya una probabilidad de 50% de que vaya hacia abajo
+    } else if (choice == 0.75) {
+      this.x--; // Una probabilidad de 25% hacia la izquierda
+    } else {
+      this.y--;
+                 // No quiero que se mueva hacia la derecha
+    }
+  }
+}
+```
+Lo que espero que pase con este codigo es que el walker empiece a moverse desde el centro de la pantalla y vaya pintando la parte izquierda de la pantalla.
