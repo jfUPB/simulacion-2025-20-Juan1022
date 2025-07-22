@@ -100,3 +100,47 @@ class Walker {
 
 >**Solución:**
 >Ya luego de indagar descubrí que lo que pasaba era que habia empezado a usar valores decimales cuando el floor los convertía a enteros por lo que siempre los redondeaba a 1 o 0 por eso siempre iba hacia arriba.
+
+## Actividad 04
+### Distribuciones de probabilidad
+
+*- En tus propias palabras cuál es la diferencia entre una distribución uniforme y una no uniforme de números aleatorios.*
+
+*- Modifica el código de la caminata aleatoria para que utilice una distribución no uniforme, favoreciendo el movimiento hacia la derecha.*
+
+>**📝 Bitácora (Respuesta)**
+>
+> En una distribución uniforme por ejemplo todo los valores que pueden salir tienden a salir con la una regularidad parecida y en una distribución no uniforme como la Gaussiana, los valores tienden a agruparse y hay un grupo de valores que tienden a repetirse más que otros.
+
+```javascript
+function setup() {
+  createCanvas(100, 100);
+
+  background(200);
+
+  describe('Three horizontal black lines are filled in randomly. The top line spans entire canvas. The middle line is very short. The bottom line spans two-thirds of the canvas.');
+}
+
+function draw() {
+  // Style the circles.
+  noStroke();
+  fill(0, 10);
+
+  // Uniform distribution between 0 and 100.
+  let x = random(50,100);
+  let y = 25;
+  circle(x, y, 5);
+
+  // Gaussian distribution with a mean of 50 and sd of 1.
+  x = randomGaussian(70,1);
+  y = 50;
+  circle(x, y, 5);
+
+  // Gaussian distribution with a mean of 50 and sd of 10.
+  x = randomGaussian(70, 10);
+  y = 75;
+  circle(x, y, 5);
+}
+
+```
+De está manera los valores se concentran entre el 50 y el 100 que pues representan el lado derecho del canva.
