@@ -64,3 +64,11 @@ Parte 2: reflexión sobre tu proceso (Metacognición)
 - Conversa con tu compañero sobre su obra y tu feedback. Escucha sus reflexiones y comparte tus propias ideas.
 
 >**📝 Bitácora (Respuesta):**
+>
+>- [x] El sketch es una obra generativa, interactiva en tiempo real y combina de manera funcional y coherente al menos tres conceptos de la unidad.
+>- [x] La bitácora contiene los cuatro elementos solicitados: una explicación clara del concepto de la obra, el código completo, un enlace funcional al sketch y >una captura de pantalla.
+>- [x] Codigo completo y funcional
+>- [x] Creativo
+>- [x] Obra acorde al concepto
+
+>El proyecto me parece interesante, bonito y creativo, me gusta como se aplicaron estos conceptos de manera tan organica, simulando tal y como son los elementos >que hacen parte de esta obra, me gusta que el cambio de color aunque parezca algo minimo le da mucho sentido e identidad a la obra, en resumen me parece un >concepto muy solido y super bien llevado.
