@@ -47,3 +47,20 @@ Parte 2: reflexión sobre tu proceso (Metacognición)
 > - Al combinar diferentes tecnicas de aletoreidad mi principal problema fue poder controlar los parametros de todos los sistemas sin que se saturara el entorno o la obra, a veces generaba la obra y no se sentia natural, algunos factores y/o elementos se sentian antinaturales.
 >
 > - Si tuviera que empezar la actividad estudiaria mejor los comportamientos, patrones y condiciones que tiene la naturaleza en la realidad, para así poder plantear un proyecto más diverso e innovador.
+
+
+## Actividad 10
+### Coevaluación
+*Aprendiendo juntos: coevaluación constructiva*
+
+*Ahora tendrás la oportunidad de analizar el trabajo final de un compañero. El objetivo es ofrecer una perspectiva externa y constructiva, identificando* *fortalezas y posibles áreas de mejora. Aprender a analizar y dar feedback es fundamental en tu proceso de formación.*
+
+📤 Bitácora
+
+- Encuentra un compañero de trabajo.
+- Intercambien las URLs de sus bitácoras de aprendizaje. 
+- Dirígete a la entrada de la Actividad 08: creación de obra generativa de tu compañero. Lee su concepto, interactúa con su sketch y analiza su código.
+- Basándote en la rúbrica para la actividad 08 evalúa el trabajo del compañero y escribe un comentario de retroalimentación constructiva. Esto lo harás en tu bitácora de aprendizaje.
+- Conversa con tu compañero sobre su obra y tu feedback. Escucha sus reflexiones y comparte tus propias ideas.
+
+>**📝 Bitácora (Respuesta):**
