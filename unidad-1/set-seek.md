@@ -106,3 +106,47 @@ https://editor.p5js.org/Juan1022/full/MFznNy6mt
 
 <img width="498" height="492" alt="image" src="https://github.com/user-attachments/assets/7d506282-6655-40d4-b12f-faefb9aa1468" />
 
+## Actividad 07
+### Ruido Perlin
+*Analicemos junto el concepto de ruido Perlin analizando la figura 0.4: “A graph of Perlin noise values over time (left) and of random noise values over time (right)”.*
+
+- Crea un nuevo sketch en p5.js donde los visualices.
+- Explica el concepto qué resultados esberabas obtener.
+- Copia el código en tu bitácora.
+- Coloca en enlace a tu sketch en p5.js en tu bitácora.
+- Selecciona una captura de pantalla de tu sketch y colócala en tu bitácora.
+
+>**📝 Bitácora (Respuesta):**
+>
+> A diferencia del random que puede generar valores bastantes dispersos y desorganizados, el ruido de perlín genera cambios mas suaves y organicos, asi que con este experimento, usando como base el ruido de Perlin espero generar figuras, movimientos y texturas más organicas.
+>
+>
+```javascript
+function setup() {
+  createCanvas(600, 400);
+  noFill();
+}
+
+function draw() {
+  background(0, 100, 150, 40); // Azul oscuro translúcido, simula el agua
+
+  stroke(255, 255, 255, 70); // Blanco suave, semi-transparente
+  strokeWeight(1.5);
+
+  for (let y = 0; y < height; y += 10) {
+    beginShape();
+    for (let x = 0; x < width; x += 5) {
+      let nx = x * 0.01;
+      let ny = y * 0.01;
+      let t = frameCount * 0.01; // tiempo
+      let offset = noise(nx, ny + t) * 40;
+      vertex(x, y + offset);
+    }
+    endShape();
+  }
+}
+```
+
+https://editor.p5js.org/Juan1022/full/sbxB1SJiq
+
+<img width="746" height="494" alt="image" src="https://github.com/user-attachments/assets/956bebad-becb-4d33-b5cf-898b8947d46d" />
