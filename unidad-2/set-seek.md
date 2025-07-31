@@ -74,3 +74,30 @@ class Walker {
 }
 
 ```
+
+## Actividad 3
+### Experimenta
+
+📤 Bitácora
+
+*¿Qué resultado esperas obtener en el programa anterior?*
+*¿Qué resultado obtuviste?*
+*Recuerda los conceptos de paso por valor y paso por referencia en programación. Muestra ejemplos de este concepto en javascript.*
+*¿Qué tipo de paso se está realizando en el código?*
+*¿Qué aprendiste?*
+
+> Bitácora (Respuesta)
+>  Esperaba que se creara un vector en posición 6 y 9 y que luego modificara el vector original para convertirlo en 20 o 30.
+>  El resultado que esperaba se creo el vector original y se modificó cambiendo x=20 e y=30
+> ### Paso por valor
+ ```
+ let a = 10;
+
+function cambiarValor(x) {
+  x = 20;
+  console.log("Dentro de la función:", x); 
+}
+
+cambiarValor(a);
+console.log("Fuera de la función:", a); 
+```
