@@ -111,4 +111,6 @@ class Walker {
 >
 >mover(v);
 >console.log(v.x); // 10
-```
+>```
+> - Es un tipo de paso por referencia ya que position es un objeto (p5.Vector), y en JavaScript los objetos SIEMPRE se pasan por referencia.
+> - Aprendí los tipos que hay de pasos de valores, aprendí que en javascript no se pueden realizar pasos de valores y que siempre serán por referencia, tambien aprendí que los pasos por referencia modifican el vector original y los pasos por valores no.
