@@ -138,5 +138,5 @@ class Walker {
 > Bitácora (Respuesta)
 > - El método .mag() devuelve la magnitud (o módulo, o longitud) de un vector: Con la formula Raiz(x^2 + y^2 + z^2)
 > - El método .normalize() en p5.Vector sirve para convertir un vector en un vector unitario, manteniendo su dirección pero su longitud(magnitud) se vuelve 1.
-> - 
+> - Es como comparar si dos flechas apuntan hacia el mismo lado, lados opuestos o en ángulo.
 
