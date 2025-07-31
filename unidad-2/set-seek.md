@@ -114,3 +114,29 @@ class Walker {
 >```
 > - Es un tipo de paso por referencia ya que position es un objeto (p5.Vector), y en JavaScript los objetos SIEMPRE se pasan por referencia.
 > - Aprendí los tipos que hay de pasos de valores, aprendí que en javascript no se pueden realizar pasos de valores y que siempre serán por referencia, tambien aprendí que los pasos por referencia modifican el vector original y los pasos por valores no.
+
+## Actividad 4 
+### Explora posibilidades
+
+📤 Bitácora
+
+*¿Para qué sirve el método mag()? Nota que hay otro método llamado magSq(). ¿Cuál es la diferencia entre ambos? ¿Cuál es más eficiente?*
+
+*¿Para qué sirve el método normalize()?*
+
+*Te encuentras con un periodista en la calle y te pregunta ¿Para qué sirve el método dot()? ¿Qué le responderías en un frase?*
+
+*El método dot() tiene una versión estática y una de instancia. ¿Cuál es la diferencia entre ambas?*
+
+*Ahora el mismo periodista curioso de antes te pregunta si le puedes dar una intuición geométrica acerca del producto cruz. Entonces te pregunta ¿Cuál es la* *interpretación geométrica del producto cruz de dos vectores? Tu respuesta debe incluir qué pasa con la orientación y la magnitud del vector resultante.*
+
+*¿Para que te puede servir el método dist()?*
+
+*¿Para qué sirven los métodos normalize() y limit()?*
+
+
+> Bitácora (Respuesta)
+> - El método .mag() devuelve la magnitud (o módulo, o longitud) de un vector: Con la formula Raiz(x^2 + y^2 + z^2)
+> - El método .normalize() en p5.Vector sirve para convertir un vector en un vector unitario, manteniendo su dirección pero su longitud(magnitud) se vuelve 1.
+> - 
+
