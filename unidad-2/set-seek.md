@@ -87,17 +87,28 @@ class Walker {
 *¿Qué aprendiste?*
 
 > Bitácora (Respuesta)
->  Esperaba que se creara un vector en posición 6 y 9 y que luego modificara el vector original para convertirlo en 20 o 30.
->  El resultado que esperaba se creo el vector original y se modificó cambiendo x=20 e y=30
+>  - Esperaba que se creara un vector en posición 6 y 9 y que luego modificara el vector original para convertirlo en 20 o 30.
+> -  El resultado que esperaba se creo el vector original y se modificó cambiendo x=20 e y=30
 > ### Paso por valor
- ```
- let a = 10;
-
-function cambiarValor(x) {
-  x = 20;
-  console.log("Dentro de la función:", x); 
-}
-
-cambiarValor(a);
-console.log("Fuera de la función:", a); 
+> ```
+> let a = 10;
+>
+>function cambiarValor(x) {
+>  x = 20;
+>  console.log("Dentro de la función:", x); 
+>}
+>
+>cambiarValor(a);
+>console.log("Fuera de la función:", a); 
+>```
+> ### Paso por referencia
+>```
+> let v = createVector(5, 5);
+>
+>function mover(vector) {
+>  vector.x = 10;
+>}
+>
+>mover(v);
+>console.log(v.x); // 10
 ```
