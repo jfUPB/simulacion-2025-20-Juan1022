@@ -77,3 +77,30 @@ Dar feedback técnico y conceptual es una habilidad clave. Analiza el trabajo de
 >**4. Calidad de la interactividad**
 >Me gusta que uses el mouse para “infectar” granos y el teclado para controlar velocidad, activar/desactivar el Perlin o pausar la creación de granos. Eso le da vida y permite que el espectador juegue con la obra, no solo la vea.
 
+# Actividad 11
+## Feedback
+Tu perspectiva me ayuda a refinar y mejorar esta unidad.
+
+### Bitácora
+
+Responde con total sinceridad:
+
+Continuar:
+**¿Qué actividad o concepto de esta unidad te resultó más “iluminador” o útil?**
+
+>R/ La explicación que hiciste en clase con las flechas me ayudó demasiado a entender todo el >concepto con el que estabamos trabajando en motion 101.
+
+**Dejar de hacer: ¿Hubo alguna actividad que te pareció redundante o menos efectiva?**
+
+>R/ Ninguna actividad me pareció redundante siempre sentí que iba estructurando mi >conocimiento paso por paso.
+
+**Empezar a hacer: ¿Qué te gustaría explorar a continuación? ¿Más fuerzas físicas (fricción, resortes), sistemas de partículas, o algo más?**
+
+>R/ Si me gustaria aprender sobre sistemas de particulas me parece un concepto muy >interesante y que en nuestra carrera sirve demasiado y seria un plus muy grande frente a >otros estudiantes tecnicos.
+
+**Método de aprendizaje: ¿El paso de los experimentos guiados (Seek) a la aplicación libre (Apply) te pareció una transición natural y efectiva? ¿Por qué?**
+
+>R/ Si me pareció muy natural, no hubo ningún cambio, no se hizo uso de ningún concepto que >no se haya explorado en el seek.
+
+Comentario adicional: ¿Algo más que quieras compartir sobre tu experiencia en esta unidad?
+
