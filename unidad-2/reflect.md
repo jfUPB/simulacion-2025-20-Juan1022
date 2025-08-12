@@ -39,3 +39,41 @@ Sin consultar tus notas, responde desde tu memoria:
 >**- Si tuvieras una semana más, ¿qué mejorarías o qué otro algoritmo de aceleración te gustaría experimentar?**
 >
 >R/ Si hubiera tenido más tiempo me hubiera gustado profundizar y estudiar un poco mejor el motion 101 y ver ejemplos de que otras cosas se podian hacer.
+
+
+# Actividad 10
+## Coevaluación
+Dar feedback técnico y conceptual es una habilidad clave. Analiza el trabajo de un compañero para ayudarle a mejorar y para aprender de sus soluciones.
+
+### Bitácora
+
+>Intercambia la URL de tu bitácora con un compañero.
+>
+>R/ Intercambié bitácoras con Laura Camila Villanueva
+>
+>Analiza su Actividad 08. Ejecuta su sketch, lee su concepto y revisa su código.
+>
+>En tu propia bitácora, escribe una retroalimentación constructiva para tu compañero, >evaluando:
+>
+>Claridad del Concepto: ¿La obra visual refleja la intención descrita?
+>
+>Implementación Técnica: ¿Se aplica correctamente el marco MOTION 101? ¿Es el código legible y >está bien estructurado?
+>
+>Creatividad del Algoritmo: ¿El algoritmo de aceleración es interesante y genera un >comportamiento único?
+>
+>Calidad de la Interactividad: ¿La interacción es intuitiva y tiene un impacto significativo >en la obra?
+>
+> R/
+>**1. Claridad del Concepto**
+>La idea está súper clara: lo de los granos de café cambiando de color mientras “viajan” está >muy bien pensado. El cambio progresivo de color ayuda un montón a entender que son distintas >etapas de maduración, y se nota que el movimiento y el color están trabajando juntos para dar >esa sensación de algo natural.
+>
+>**2. Implementación Técnica**
+>La forma en que cada partícula actúa como un objeto independiente hace que la simulación se vea ordenada y coherente.
+>
+>**3. Creatividad del Algoritmo**
+>Me gusta porque con el ruido perlin lograste hacer que el movimiento sea suave y con un toque >orgánico, nada de movimientos raros o bruscos. Se nota que no elegiste cualquier cosa al >azar, sino que buscaste algo que le diera estilo y control a cómo se mueven los granos.
+>
+>
+>**4. Calidad de la interactividad**
+>Me gusta que uses el mouse para “infectar” granos y el teclado para controlar velocidad, activar/desactivar el Perlin o pausar la creación de granos. Eso le da vida y permite que el espectador juegue con la obra, no solo la vea.
+
