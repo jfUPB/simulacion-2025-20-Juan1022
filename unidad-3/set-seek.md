@@ -170,3 +170,120 @@ class Spark {
 ```
 <img width="993" height="363" alt="image" src="https://github.com/user-attachments/assets/085fcf14-de40-4106-ba27-ae97a378fe73" />
 
+# Obra #2: Resistencia del aire y fluidos.
+La fuerza es el motor invisible que moldea el balanceo del péndulo. El viento, al oponerse o impulsarlo, transforma su ritmo y crea un movimiento único, resultado del juego entre física y espectador.
+
+**Link:**
+https://editor.p5js.org/Juan1022/full/vJbgJSlFt
+
+``` java
+let pendulum;
+let windForce = 0;
+
+function setup() {
+  createCanvas(600, 400);
+  pendulum = new Pendulum(width / 2, 100, 200);
+}
+
+function draw() {
+  background(220);
+
+  // Viento directo según teclas
+  let wind = 0;
+  if (keyIsDown(LEFT_ARROW)) {
+    wind = -0.002; // viento hacia la izquierda
+  }
+  if (keyIsDown(RIGHT_ARROW)) {
+    wind = 0.002; // viento hacia la derecha
+  }
+
+  // Aplicar viento directamente
+  if (wind !== 0) {
+    pendulum.applyWind(wind);
+  }
+
+  // Dibujar indicador de viento
+  drawWindIndicator(wind);
+
+  pendulum.update();
+  pendulum.display();
+}
+
+function drawWindIndicator(wind) {
+  push();
+  translate(width / 2, 40);
+
+  if (wind > 0) {
+    // Flecha hacia la derecha
+    drawArrow(color(0, 150, 255), 60);
+  } else if (wind < 0) {
+    // Flecha hacia la izquierda
+    drawArrow(color(255, 100, 100), -60);
+  } else {
+    noStroke();
+    fill(100);
+    textAlign(CENTER);
+    textSize(16);
+    text("Sin viento", 0, 5);
+  }
+
+  pop();
+}
+
+function drawArrow(col, len) {
+  stroke(col);
+  strokeWeight(3);
+  fill(col);
+  line(0, 0, len, 0);
+  if (len > 0) {
+    triangle(len, 0, len - 10, -5, len - 10, 5);
+  } else {
+    triangle(len, 0, len + 10, -5, len + 10, 5);
+  }
+}
+
+class Pendulum {
+  constructor(x, y, r) {
+    this.origin = createVector(x, y);
+    this.position = createVector();
+    this.r = r;
+    this.angle = PI / 4;
+    this.aVelocity = 0.0;
+    this.aAcceleration = 0.0;
+    this.damping = 0.995;
+    this.gravity = 0.4;
+  }
+
+  update() {
+    let force = (-1 * this.gravity / this.r) * sin(this.angle);
+    this.aAcceleration = force;
+    this.aVelocity += this.aAcceleration;
+    this.aVelocity *= this.damping;
+    this.angle += this.aVelocity;
+  }
+
+  applyWind(force) {
+    // El viento se aplica como aceleración angular directa
+    this.aVelocity += force;
+  }
+
+  display() {
+    this.position.set(
+      this.r * sin(this.angle),
+      this.r * cos(this.angle)
+    );
+    this.position.add(this.origin);
+
+    stroke(0);
+    strokeWeight(2);
+    line(this.origin.x, this.origin.y, this.position.x, this.position.y);
+    fill(127);
+    ellipse(this.position.x, this.position.y, 48, 48);
+  }
+}
+
+```
+<img width="653" height="436" alt="image" src="https://github.com/user-attachments/assets/89e7fa32-933c-4b36-9be7-630560dc7aee" />
+
+
+
