@@ -286,4 +286,130 @@ class Pendulum {
 <img width="653" height="436" alt="image" src="https://github.com/user-attachments/assets/89e7fa32-933c-4b36-9be7-630560dc7aee" />
 
 
+# Obra #3: Fuerza Gravitacional.
+
+La fuerza en esta obra fue modelada como una atracción gravitacional: las bolas con mayor masa ejercen más atracción, lo que hace que las pequeñas sean absorbidas por ellas. Este modelo no solo aporta realismo físico, sino que refuerza el concepto de crecimiento colectivo y transformación al representar cómo los cuerpos se buscan, se encuentran y terminan fusionándose en uno nuevo.
+
+**Link:**
+https://editor.p5js.org/Juan1022/full/u3t5SffOK
+
+``` java
+let particles = [];
+const K_SIZE = 1; // factor opcional para escalar visualmente el tamaño (1 = natural)
+
+function setup() {
+  createCanvas(800, 600);
+  for (let i = 0; i < 20; i++) {
+    const r0 = random(6, 12);
+    particles.push(new Particle(random(width), random(height), r0));
+  }
+}
+
+function draw() {
+  background(20);
+
+  let newParticles = [];
+  let toRemove = new Set();
+
+  // Fuerzas + colisiones (solo j>i)
+  for (let i = 0; i < particles.length; i++) {
+    const p = particles[i];
+
+    // gravedad newtoniana
+    for (let j = 0; j < particles.length; j++) {
+      if (i !== j) {
+        const other = particles[j];
+        const f = p.attract(other);
+        other.applyForce(f);
+      }
+    }
+
+    // colisiones
+    for (let j = i + 1; j < particles.length; j++) {
+      const a = particles[i];
+      const b = particles[j];
+      if (a.collides(b)) {
+        // punto de impacto (aproximado como punto medio)
+        const pos = p5.Vector.add(a.pos, b.pos).mult(0.5);
+
+        // masa total = suma (masa ~ r^2)
+        const newMass = a.mass + b.mass;
+
+        // conservar momento lineal
+        const newVel = p5.Vector.add(
+          p5.Vector.mult(a.vel, a.mass),
+          p5.Vector.mult(b.vel, b.mass)
+        ).div(newMass);
+
+        // crear nueva partícula en el instante y posición del choque
+        const newR = K_SIZE * sqrt(newMass);
+        const np = new Particle(pos.x, pos.y, newR);
+        np.mass = newMass; // coherencia masa-radio
+        np.vel = newVel;
+        np.color = lerpColor(a.color, b.color, 0.5);
+
+        newParticles.push(np);
+        toRemove.add(a);
+        toRemove.add(b);
+      }
+    }
+  }
+
+  // eliminar las colisionadas y añadir las nuevas fusionadas
+  particles = particles.filter(p => !toRemove.has(p));
+  particles = particles.concat(newParticles);
+
+  // actualizar y dibujar
+  for (const p of particles) {
+    p.update();
+    p.show();
+  }
+}
+
+class Particle {
+  constructor(x, y, r) {
+    this.pos = createVector(x, y);
+    this.vel = p5.Vector.random2D().mult(2);
+    this.acc = createVector(0, 0);
+    this.r = r;
+    this.mass = (r / K_SIZE) * (r / K_SIZE); // masa = r^2 (coherente con 2D)
+    this.color = color(random(120, 255), random(120, 255), random(160, 255));
+  }
+
+  applyForce(force) {
+    // a = F / m
+    this.acc.add(p5.Vector.div(force, this.mass));
+  }
+
+  attract(other) {
+    const G = 0.5; // ajusta la intensidad
+    const dir = p5.Vector.sub(this.pos, other.pos);
+    let d = dir.mag();
+    d = constrain(d, 5, 50); // evita singularidades
+    const strength = (G * this.mass * other.mass) / (d * d);
+    dir.setMag(strength);
+    return dir; // fuerza sobre "other" hacia "this"
+  }
+
+  update() {
+    this.vel.add(this.acc);
+    this.pos.add(this.vel);
+    this.acc.mult(0);
+  }
+
+  show() {
+    noStroke();
+    fill(this.color);
+    circle(this.pos.x, this.pos.y, this.r * 2);
+  }
+
+  collides(other) {
+    const d = p5.Vector.dist(this.pos, other.pos);
+    return d <= this.r + other.r;
+  }
+}
+```
+
+<img width="894" height="663" alt="image" src="https://github.com/user-attachments/assets/c54bbabc-d8fb-41d9-9e2f-9eb65858e331" />
+
 
