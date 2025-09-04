@@ -38,7 +38,7 @@ Específicamente, me basé en el ruido de Perlin para generar dos paletas de col
 
 ## Enlace a la obra en el editor de p5.js
 
-https://editor.p5js.org/Juan1022/full/vrqFFnfDD
+https://editor.p5js.org/Juan1022/sketches/vrqFFnfDD
 
 ## Código de la obra 
 
@@ -52,13 +52,18 @@ let orbitRadius2 = 180;
 let orbitLimit = 250;
 
 let audioStarted = false;
+let perlinColorOffset = 0; // Variable para el ruido de Perlin
 
 // Variables para el visualizador de audio
 let mySound;
 let fft;
 
+// Nueva paleta de colores fríos y cálidos
+let paletaFria = [];
+let paletaCalida = [];
+
 function preload() {
-  mySound = loadSound('DAN.mp3'); 
+  mySound = loadSound('ED.mp3'); 
 }
 
 function setup() {
@@ -67,6 +72,24 @@ function setup() {
   colorMode(HSB, 360, 100, 100);
 
   fft = new p5.FFT();
+  
+  // Definición de la paleta de colores fríos
+  paletaFria = [
+    color(180, 100, 100), // Cian
+    color(200, 100, 100), // Azul cielo
+    color(220, 100, 100), // Azul
+    color(240, 100, 100), // Azul violeta
+    color(260, 100, 100), // Violeta
+  ];
+
+  // Definición de la nueva paleta de colores cálidos basada en la imagen de referencia
+  paletaCalida = [
+    color(0, 100, 100),   // Rojo
+    color(20, 100, 100),  // Naranja
+    color(40, 100, 100),  // Amarillo-Naranja
+    color(60, 100, 100),  // Amarillo
+    color(340, 100, 100), // Rojo-Violeta
+  ];
   
   for (let i = 0; i < numOrbiters; i++) {
     let angle = map(i, 0, numOrbiters, 0, 360);
@@ -92,7 +115,6 @@ function draw() {
     audioStarted = true;
   }
   
-  // Analiza el espectro de audio
   fft.analyze();
   
   // --- Mapeo de sonido a propiedades visuales ---
@@ -103,41 +125,34 @@ function draw() {
   let maxCentroid = 8000;
   
   // *** CREAR EL DEGRADADO DE FONDO ***
-  let colorFrom, colorTo;
+  let colorFromBg, colorToBg; 
   let bassMapped = map(bassEnergy, 0, 255, 0, 1);
   
-  // Color de inicio (arriba): Transiciona de azul a rojo
-  let hueFrom = map(bassMapped, 0, 1, 220, 360);
-  colorFrom = color(hueFrom, 100, 80);
+  let hueFromBg = map(bassMapped, 0, 1, 220, 360);
+  colorFromBg = color(hueFromBg, 100, 80);
   
-  // Color de fin (abajo): Transiciona de morado a naranja
-  let hueTo = map(bassMapped, 0, 1, 260, 20);
-  colorTo = color(hueTo, 100, 80);
+  let hueToBg = map(bassMapped, 0, 1, 260, 20);
+  colorToBg = color(hueToBg, 100, 80);
   
-  // Dibuja cada línea del degradado en el fondo
   for (let y = 0; y < height; y++) {
     let inter = map(y, 0, height, 0, 1);
-    let c = lerpColor(colorFrom, colorTo, inter);
+    let c = lerpColor(colorFromBg, colorToBg, inter);
     stroke(c);
     line(0, y, width, y);
   }
 
-  // Ahora el resto del código se dibuja encima del degradado
   translate(width / 2, height / 2);
 
-  // Asignar el tipo de figura central según la banda de frecuencia dominante
   if (bassEnergy > midEnergy && bassEnergy > trebleEnergy) {
-    centerType = 2; // Círculo (tonos graves)
+    centerType = 2;
   } else if (midEnergy > bassEnergy && midEnergy > trebleEnergy) {
-    centerType = 0; // Pentágono (tonos medios)
+    centerType = 0;
   } else {
-    centerType = 1; // Triángulo (tonos agudos)
+    centerType = 1;
   }
   
-  // Mapear la energía a variables de control
   let speedFactor = map(bassEnergy, 0, 255, 0.5, 3);
   
-  // --- Ondulación del círculo exterior: ahora depende de los bajos ---
   noFill();
   stroke(150);
   strokeWeight(2);
@@ -155,7 +170,6 @@ function draw() {
   }
   endShape(CLOSE);
 
-  // --- centro ---
   noFill();
   stroke(255);
   strokeWeight(2);
@@ -167,9 +181,24 @@ function draw() {
     ellipse(0, 0, 80);
   }
 
-  // --- color dinámico basado en el centroide espectral ---
+  // --- Ruido de Perlin para el color de los triángulos interiores ---
+  perlinColorOffset += 0.005;
+  let perlinVal = noise(perlinColorOffset);
+  let c1;
+  
+  // Paleta de colores fríos vs. cálidos
+  if (bassEnergy < 100) { 
+      let colorIndex = floor(map(perlinVal, 0, 1, 0, paletaFria.length));
+      c1 = paletaFria[colorIndex];
+  } else {
+      let colorIndex = floor(map(perlinVal, 0, 1, 0, paletaCalida.length)); // Se usa la nueva paleta
+      c1 = paletaCalida[colorIndex];
+  }
+
+  // --- color dinámico para los triángulos interiores (cabeza de la estela) ---
   let hueValue = map(spectralCentroid, 0, maxCentroid, 200, 0); 
-  let c = color(hueValue, 100, 100);
+  let baseOrbiterHue = hueValue; 
+  let baseOrbiterSat = 100;
 
   // --- orbiters grupo 1 (Estrella Pulsante) ---
   let pulseRadius = map(bassEnergy, 0, 255, 10, 60);
@@ -181,7 +210,7 @@ function draw() {
     push();
     translate(x, y);
     rotate(orb.angle + frameCount * speedFactor);
-    fill(c);
+    fill(c1);
     noStroke();
     triangle(-10, 8, 10, 8, 0, -12);
     pop();
@@ -189,14 +218,14 @@ function draw() {
     orb.angle += 0.5 * speedFactor;
   }
 
-  // --- orbiters grupo 2 (Vórtice que se Arremolina) ---
+  // --- orbiters grupo 2 (Círculos Brillantes) ---
   let centerMass;
   if (centerType === 0) {
-    centerMass = 1000;
-  } else if (centerType === 1) {
     centerMass = 500;
+  } else if (centerType === 1) {
+    centerMass = 250;
   } else if (centerType === 2) {
-    centerMass = 2500;
+    centerMass = 1000;
   }
 
   for (let orb of orbiters2) {
@@ -219,22 +248,31 @@ function draw() {
       orb.history.shift();
     }
 
+    // --- Dibujo de la estela con color y brillo graduales ---
     noFill();
-    stroke(hueValue, 80, 100, 0.5);
-    beginShape();
-    for (let v of orb.history) {
-      vertex(v.x, v.y);
-    }
-    endShape();
+    for (let i = 0; i < orb.history.length - 1; i++) {
+      let v1 = orb.history[i];
+      let v2 = orb.history[i+1];
 
+      let inter = map(i, 0, orb.history.length - 1, 0, 1);
+      
+      let trailStartColor = color(baseOrbiterHue, baseOrbiterSat, 100); 
+      let trailEndColor = color(baseOrbiterHue, baseOrbiterSat, 30, 0); 
+
+      let trailColor = lerpColor(trailStartColor, trailEndColor, inter);
+      
+      stroke(trailColor);
+      strokeWeight(2);
+      line(v1.x, v1.y, v2.x, v2.y);
+    }
+    
+    // --- Dibujo del Círculo Brillante ---
+    let brightness = map(d, 50, orbitLimit, 100, 30);
+    let orbiterColor = color(baseOrbiterHue, baseOrbiterSat, brightness);
+    
     noStroke();
-    push();
-    translate(orb.pos.x, orb.pos.y);
-    let angle = orb.vel.heading();
-    rotate(angle + 90);
-    fill(c);
-    triangle(-10, 8, 10, 8, 0, -12);
-    pop();
+    fill(orbiterColor);
+    ellipse(orb.pos.x, orb.pos.y, 10); 
   }
 }
 
@@ -253,6 +291,7 @@ function polygon(x, y, radius, npoints) {
 ```
 
 <img width="1200" height="1200" alt="image" src="https://github.com/user-attachments/assets/266e33fe-a886-4d7c-97bc-4dcd1315d414" />
+
 
 
 
