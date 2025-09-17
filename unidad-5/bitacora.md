@@ -628,5 +628,9 @@ https://editor.p5js.org/Juan1022/full/YZP24BxrD
 <img width="764" height="289" alt="image" src="https://github.com/user-attachments/assets/34de4009-6a1b-43e2-b372-c2a379f9baae" />
 
 
+#Apply
+## Primeros bocetos: 
+<img width="1151" height="645" alt="image" src="https://github.com/user-attachments/assets/c58f99e6-f8b5-40df-bc2e-5c114d258cbb" />
+
 
 
