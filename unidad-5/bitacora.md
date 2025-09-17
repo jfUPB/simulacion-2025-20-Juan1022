@@ -146,7 +146,7 @@ https://editor.p5js.org/Juan1022/full/qz6n7Pmz2
 <img width="797" height="299" alt="image" src="https://github.com/user-attachments/assets/53ba4df7-0463-43b1-8766-cb7b80b5273c" />
 
 # a Particle System with Inheritance and Polymorphism
-## Implementación Unidad 2: Oscillation
+## Implementación Unidad 3: Oscillation
 Creé una clase Pendulum que calcula su ángulo, aceleración angular y posición basándose en la gravedad. Dibujé la piñata como una esfera al final de la cuerda del péndulo, porque quería que el emitter no estuviera fijo, sino que simulara una piñata real en movimiento, mezcla los conceptos de oscilación (unidad 5) con partículas (unidad 3).
 
 ## Creación y destrucción de la particula
@@ -310,4 +310,160 @@ https://editor.p5js.org/Juan1022/sketches/yHmugENWe
 <img width="727" height="411" alt="image" src="https://github.com/user-attachments/assets/a3330cc7-932a-4055-a991-266afb31422b" />
 
 
+# A particle system with forces.
+## Implementación Unidad 1: Spring Forces
+el concepto que apliqué es la fuerza de resorte, basada en la Ley de Hooke. Lo implementé uniendo cada partícula con la siguiente, calculando la fuerza para que siempre intenten regresar a una "longitud de reposo" específica. Así, si se estiran, se jalan; y si se comprimen, se empujan, creando un efecto elástico.
+
+## Creación y destrucción de la particula
+### Creación
+Las partículas se crean continuamente dentro de la función draw() en sketch.js, donde se llama a emitter.addParticle(). Este método, a su vez, instancia un nuevo objeto Particle y lo agrega al arreglo this.particles del emisor. El código limita el número de partículas a un máximo de 100 con la condición if (this.particles.length < 100), lo que previene un consumo excesivo de memoria.
+
+### Destrucción
+La misma logica de los ejemplos anteriores.
+
+
+### Codigo fuente
+``` emitter
+// The Nature of Code
+// Daniel Shiffman
+// http://natureofcode.com
+
+class Emitter {
+
+  constructor(x, y) {
+    this.origin = createVector(x, y);
+    this.particles = [];
+  }
+
+  addParticle() {
+    // Limit the number of particles to avoid performance issues
+    if (this.particles.length < 100) {
+      this.particles.push(new Particle(this.origin.x, this.origin.y));
+    }
+  }
+
+  applyForce(force) {
+    for (let particle of this.particles) {
+      particle.applyForce(force);
+    }
+  }
+
+  run() {
+    // --- INICIO DE LA IMPLEMENTACIÓN DEL RESORTE ---
+    
+    // Constantes para el resorte
+    let k = 0.1; // Constante de rigidez del resorte
+    let restLength = 40; // Longitud en reposo del resorte
+
+    // Iteramos a través de todas las partículas para conectar las adyacentes
+    for (let i = 0; i < this.particles.length - 1; i++) {
+      let p1 = this.particles[i];
+      let p2 = this.particles[i + 1];
+      
+      // Calcular el vector de fuerza entre las dos partículas
+      let force = p5.Vector.sub(p1.position, p2.position);
+      let d = force.mag();
+      let stretch = d - restLength;
+      
+      force.normalize();
+      force.mult(-1 * k * stretch);
+      
+      // Aplicar las fuerzas a ambas partículas
+      p1.applyForce(force);
+      // La segunda partícula recibe la fuerza opuesta
+      p2.applyForce(force.copy().mult(-1));
+      
+      // Dibujar la línea para visualizar el resorte
+      stroke(0, 100);
+      strokeWeight(1);
+      line(p1.position.x, p1.position.y, p2.position.x, p2.position.y);
+    }
+    // --- FIN DE LA IMPLEMENTACIÓN DEL RESORTE ---
+
+    // Este bucle se mantiene para actualizar y eliminar las partículas muertas
+    for (let i = this.particles.length - 1; i >= 0; i--) {
+      const particle = this.particles[i];
+      particle.run();
+      if (particle.isDead()) {
+        this.particles.splice(i, 1);
+      }
+    }
+  }
+}
+```
+
+``` particle.js
+// The Nature of Code
+// Daniel Shiffman
+// http://natureofcode.com
+
+// Simple Particle System
+// A simple Particle class
+
+class Particle {
+  constructor(x, y) {
+    this.position = createVector(x, y);
+    this.acceleration = createVector(0, 0.0);
+    this.velocity = createVector(random(-1, 1), random(-2, 0));
+    this.lifespan = 255.0;
+    this.mass = 1; // Let's do something better here!
+  }
+
+  run() {
+    this.update();
+    this.show();
+  }
+
+  applyForce(force) {
+    let f = force.copy();
+    f.div(this.mass);
+    this.acceleration.add(f);
+  }
+
+  
+  update() {
+    this.velocity.add(this.acceleration);
+    this.position.add(this.velocity);
+    this.acceleration.mult(0);
+    this.lifespan -= 2.0;
+  }
+
+  
+  show() {
+    stroke(0, this.lifespan);
+    strokeWeight(2);
+    fill(127, this.lifespan);
+    circle(this.position.x, this.position.y, 8);
+  }
+
+  // Is the particle still useful?
+  isDead() {
+    return this.lifespan < 0.0;
+  }
+}
+```
+
+``` sketch.js
+
+
+let emitter;
+
+function setup() {
+  createCanvas(1280, 480);
+  emitter = new Emitter(width / 4, 10);
+}
+
+function draw() {
+  background(220); // Un fondo sólido para ver mejor las líneas
+
+  // Aplicar fuerza de gravedad a todas las partículas
+  let gravity = createVector(0, 0.1);
+  emitter.applyForce(gravity);
+
+  emitter.addParticle();
+  emitter.run();
+}
+```
+https://editor.p5js.org/Juan1022/full/Y_9vCwY5b
+<img width="805" height="590" alt="image" src="https://github.com/user-attachments/assets/080aaaf0-3587-4f45-845f-6e9a1ded8bb9" />
 
