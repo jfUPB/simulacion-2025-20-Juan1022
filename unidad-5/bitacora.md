@@ -2,7 +2,7 @@
 # Actividad 2
 
 # An array of particles
-## Implementación Unidad 1: Randomness
+## Implementación Unidad 0: Randomness
 En el particle.js realicé los siguientes cambios basados en la Unidad #1 Randomness
 
 this.size = random(5,15) - Aquí cada particula tiene un tamaño distinto que varia aleatoriamente.
@@ -466,4 +466,167 @@ function draw() {
 ```
 https://editor.p5js.org/Juan1022/full/Y_9vCwY5b
 <img width="805" height="590" alt="image" src="https://github.com/user-attachments/assets/080aaaf0-3587-4f45-845f-6e9a1ded8bb9" />
+
+# a Particle System with a Repeller.
+## Implementación Unidad 0: Perlin Noise
+le añadí un ruido a la fuera del repulsor para que este en vez de tener una fuerza constante tenga una variable, utilicé la función noise() con una variable de "tiempo" que se incrementa en cada cuadro. Este valor de ruido, que oscila entre 0 y 1, se "mapea" a un rango de poder más amplio para el repulsor. El resultado es que la fuerza de repulsión no es estática, sino que pulsa y varía de forma orgánica y no predecible.
+
+## Creación y destrucción de la particula
+### Creación
+De la msima manera
+
+### Destrucción
+De la misma manera
+``` emitter.js
+//{!1} The Emitter manages all the particles.
+class Emitter {
+
+  constructor(x, y) {
+    this.origin = createVector(x, y);
+    this.particles = [];
+  }
+
+  addParticle() {
+    this.particles.push(new Particle(this.origin.x, this.origin.y));
+  }
+
+  applyForce(force) {
+    //{!3} Applying a force as a p5.Vector
+    for (let particle of this.particles) {
+      particle.applyForce(force);
+    }
+  }
+
+  applyRepeller(repeller) {
+    //{!4} Calculating a force for each Particle based on a Repeller
+    for (let particle of this.particles) {
+      let force = repeller.repel(particle);
+      particle.applyForce(force);
+    }
+  }
+
+  run() {
+    for (let i = this.particles.length - 1; i >= 0; i--) {
+      const particle = this.particles[i];
+      particle.run();
+      if (particle.isDead()) {
+        this.particles.splice(i, 1);
+      }
+    }
+  }
+}
+```
+
+``` particle.js
+// The Nature of Code
+// Daniel Shiffman
+// http://natureofcode.com
+
+// Simple Particle System
+
+// A simple Particle class
+
+class Particle {
+  constructor(x, y) {
+    this.position = createVector(x, y);
+    this.velocity = createVector(random(-1, 1), random(-1, 0));
+    this.acceleration = createVector(0, 0);
+    this.lifespan = 255.0;
+  }
+
+  run() {
+    this.update();
+    this.show();
+  }
+
+  applyForce(f) {
+    this.acceleration.add(f);
+  }
+
+  // Method to update position
+  update() {
+    this.velocity.add(this.acceleration);
+    this.position.add(this.velocity);
+    this.lifespan -= 2;
+    this.acceleration.mult(0);
+  }
+
+  // Method to display
+  show() {
+    stroke(0, this.lifespan);
+    strokeWeight(2);
+    fill(127, this.lifespan);
+    circle(this.position.x, this.position.y, 8);
+  }
+
+  // Is the particle still useful?
+  isDead() {
+    return this.lifespan < 0.0;
+  }
+}
+
+```
+``` repeller.js
+class Repeller {
+  constructor(x, y) {
+    this.position = createVector(x, y);
+    this.basePower = 150; // Almacenamos el valor original de poder
+    this.noiseTime = random(1000); // Un valor aleatorio para empezar en un punto diferente del ruido
+  }
+
+  show() {
+    stroke(0);
+    strokeWeight(2);
+    fill(127);
+    circle(this.position.x, this.position.y, 32);
+  }
+
+  repel(particle) {
+    let force = p5.Vector.sub(this.position, particle.position);
+    let distance = force.mag();
+    distance = constrain(distance, 5, 50);
+
+    // Usamos noise() para variar el poder del repulsor
+    let noiseValue = noise(this.noiseTime);
+    this.power = map(noiseValue, 0, 1, this.basePower * 0.5, this.basePower * 2.0);
+
+    let strength = (-1 * this.power) / (distance * distance);
+    force.setMag(strength);
+    return force;
+  }
+}
+```
+``` sketch.js
+// One ParticleSystem
+let emitter;
+let repeller;
+
+function setup() {
+  createCanvas(640, 240);
+  emitter = new Emitter(width / 2, 60);
+  repeller = new Repeller(width / 2, 250);
+}
+
+function draw() {
+  background(255);
+  emitter.addParticle();
+
+  // Actualizamos el noiseTime del repulsor
+  repeller.noiseTime += 0.01;
+
+  let gravity = createVector(0, 0.1);
+  emitter.applyForce(gravity);
+  emitter.applyRepeller(repeller);
+  emitter.run();
+
+  repeller.show();
+}
+```
+
+
+https://editor.p5js.org/Juan1022/full/YZP24BxrD
+<img width="764" height="289" alt="image" src="https://github.com/user-attachments/assets/34de4009-6a1b-43e2-b372-c2a379f9baae" />
+
+
+
 
