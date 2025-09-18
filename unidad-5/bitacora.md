@@ -649,6 +649,8 @@ Para controlar esto uso el mismo sistema que usan los ejemplos del libro, Cada v
 
 https://editor.p5js.org/Juan1022/full/mFSGdGHs8
 
+https://editor.p5js.org/Juan1022/full/uXfKFzDMh - Jugando con valores de lifespan y la velocidad del emitter.
+
 <img width="1841" height="796" alt="image" src="https://github.com/user-attachments/assets/15aec5ae-e3ab-4878-a263-f96a1cd12924" />
 
 <img width="3840" height="2160" alt="image" src="https://github.com/user-attachments/assets/14c382a3-2550-4055-beee-197196f7a9a7" />
@@ -859,5 +861,6 @@ class Heart extends Particle {
   }
 }
 ```
+
 
 
