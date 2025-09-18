@@ -861,6 +861,18 @@ class Heart extends Particle {
   }
 }
 ```
+#Justificación
+Considero que mi nota es **5**.
 
+* **1er componente:** Realicé y documenté el debido proceso de la etapa de investigación (actividad 2). Los conocimientos obtenidos me sirvieron y fueron aplicados en la fase de `apply`, de donde implementé los conceptos de creación y destrucción de las partículas, que fueron recurrentes en todos los ejemplos.
 
+* **2do componente:** Presento el concepto que me sirvió de base sólida para la creación del proyecto. El resto fueron simples cambios en algunos elementos del código, con ideas que fueron surgiendo al verlo reproduciendo en pantalla.
 
+* **3er componente:** Me cercioré de hacer uso de los conocimientos que me suministraron la investigación y la aplicación en las unidades anteriores, con conceptos desde:
+    * **Unidad 0: `Randomness`:** El color de las partículas está dictado por este mismo.
+    * **Unidad 1: Vectores:** La clase `Particle` hace uso de elementos como velocidad, fuerza, posición, etc.
+    * **Unidad 2: Fuerzas:** Fuerzas de atracción aplicadas al movimiento del mouse para generar interacción con el usuario.
+    * **Unidad 3:** De esta unidad, lo que más me quedó fue el concepto de añadir sonidos; aunque no fue el foco de esta unidad, fue una parte clave de mi `apply`.
+    * **Unidad 4:** Sistema de partículas. Al ser lo principal en este `apply`, es la base de todo el proyecto.
+
+* **4to componente:** Probé la obra muchas veces y fui encontrando algunos errores. Sin embargo, fueron solucionados. Los errores se presentaban mayormente con el control del tamaño de las partículas, que hacían uso del `lifespan`, y al cambiar el `lifespan` empezaban a tomar formas y posiciones extrañas.
