@@ -630,7 +630,234 @@ https://editor.p5js.org/Juan1022/full/YZP24BxrD
 
 #Apply
 ## Primeros bocetos: 
+
+Mi idea inicial era tomar una imagene de un boceto de una persona y por medio de emitter y fuerzas recrear su cabello, este seria un cabello elemental con particulas de agua y lava, sin embargo ese concepto fué mutando hasta llegar a este nuevo concepto que conserva ideas como la de la imagen en pantalla y los elementos de la naturaleza:
 <img width="1151" height="645" alt="image" src="https://github.com/user-attachments/assets/c58f99e6-f8b5-40df-bc2e-5c114d258cbb" />
 
+Con esta obra busco expresar todo lo que las estaciones, momentos, sonidos y expresiones pueden generar. en resumen, busco que las personas puedan experimentar y observar cómo un simple gesto puede generar una variedad de paisajes emocionales. Es una forma de traducir emociones internas en fenómenos visuales y auditivos.
+
+### Polimorfismo y Herencia
+
+**Herencia:** La clase Particle es la base que da a las partículas propiedades como su posición, velocidad y vida útil. Las otras clases de partículas (Heart, Bubble, etc.) heredan esas propiedades y no necesitan reescribirlas.
+
+**Polimorfismo:** Las clases hijas usan el polimorfismo para tener su propia versión del método display(). Cuando el emisor le dice a una partícula que se dibuje, el programa sabe si dibujar un corazón, una burbuja o una hoja, sin que tengas que decírselo explícitamente.
+
+En esta obra recorro conceptos como el noise() de la unidad 0 para aletorizar los colores de los elementos, utilizo vectores como velocidad,fuerza, posición que me sirven para darle vida a las particulas, utilizo fuerza de atracción para implementar cierta interacción con el usuari, el sistema de particulas e implementación de sonidos, de esta manera hago el recorrido por todas las unidades de Nature of code.
+
+### Vida de la particula
+Para controlar esto uso el mismo sistema que usan los ejemplos del libro, Cada vez que se crea una nueva partícula (en el constructor de la clase Particle), su lifespan se inicializa a un valor alto (en tu caso, 255). Este valor funciona como un contador de vida regresivo, tambien se me ocurrió usar este elemento para controlar el tamaño de las particulas que cuando se crean son pequeñas pero a medida que va reduciendo las particulas van creciendo.
+
+https://editor.p5js.org/Juan1022/full/mFSGdGHs8
+
+<img width="1841" height="796" alt="image" src="https://github.com/user-attachments/assets/15aec5ae-e3ab-4878-a263-f96a1cd12924" />
+
+<img width="3840" height="2160" alt="image" src="https://github.com/user-attachments/assets/14c382a3-2550-4055-beee-197196f7a9a7" />
+
+<img width="3840" height="2160" alt="image" src="https://github.com/user-attachments/assets/1a551e9c-950c-4438-98c6-6386caea556b" />
+
+#Codigos:
+``` sketch.js
+let img;
+let blizzardSound;
+
+let emitter;
+let particleType = 1;
+
+let showHeartEyes = false;
+let showUnderwaterEffect = false;
+let fallingLeaves = [];
+
+function preload() {
+  img = loadImage('Chica.png');
+  soundFormats('mp3');
+  blizzardSound = loadSound('Winter.mp3'); 
+}
+
+function setup() {
+  createCanvas(1920, 1080);
+  
+  let imgWidth = 1024;
+  let imgHeight = 600;
+
+  let imgX = (width - imgWidth) / 2;
+  let imgY = (height - imgHeight) / 2;
+
+  let emitterX = imgX + imgWidth / 1.99;
+  let emitterY = imgY + imgHeight / 2 + 50; 
+  emitter = new Emitter(emitterX, emitterY); 
+
+  blizzardSound.setVolume(0.5);
+  blizzardSound.setLoop(true);
+}
+
+function draw() {
+  background(0);
+  
+  let imgWidth = 1024;
+  let imgHeight = 600;
+  let imgX = (width - imgWidth) / 2;
+  let imgY = (height - imgHeight) / 2;
+
+  image(img, imgX, imgY, imgWidth, imgHeight);
+
+  // Use the new EyeHeart class for the eyes
+   if (showHeartEyes) {
+    let newXOffset = 30;
+    let newYOffset = 80;
+    
+    // Suma un valor para mover ambos corazones a la derecha
+    let moveRight = 10; // Ajusta este valor para moverlos más o menos
+    
+    let leftHeart = new EyeHeart(imgX + imgWidth / 2 - newXOffset + moveRight, imgY + imgHeight / 2 - newYOffset);
+    leftHeart.display();
+    
+    let rightHeart = new EyeHeart(imgX + imgWidth / 2 + newXOffset + moveRight, imgY + imgHeight / 2 - newYOffset);
+    rightHeart.display();
+  }
+
+  for (let i = fallingLeaves.length - 1; i >= 0; i--) {
+    let p = fallingLeaves[i];
+    p.update();
+    p.display();
+    if (p.isDead()) {
+      fallingLeaves.splice(i, 1);
+    }
+  }
+  if (particleType === 3 && frameCount % 10 === 0) {
+    let newLeaf = new AutumnLeaf(random(width), random(-100, 0));
+    newLeaf.velocity = createVector(random(-0.5, 0.5), random(1, 3));
+    fallingLeaves.push(newLeaf);
+  }
+
+  if (showUnderwaterEffect) {
+    noStroke();
+    fill(0, 0, 100, 70); 
+    rectMode(CORNER);
+    rect(0, 0, width, height);
+  }
+
+  emitter.run();
+  
+  if (frameCount % 5 === 0) {
+    emitter.addParticle(particleType); 
+  }
+}
+
+function keyPressed() {
+  showHeartEyes = false;
+  showUnderwaterEffect = false;
+  fallingLeaves = []; 
+  if (blizzardSound.isPlaying()) {
+    blizzardSound.stop();
+  }
+
+  if (key === '1') {
+    particleType = 1;
+    showHeartEyes = true;
+  } else if (key === '2') {
+    particleType = 2;
+    blizzardSound.play();
+  } else if (key === '3') {
+    particleType = 3;
+  } else if (key === '4') {
+    particleType = 4;
+    showUnderwaterEffect = true;
+  }
+}
+```
+
+```particle.js
+class Particle {
+  constructor(x, y) {
+    this.position = createVector(x, y);
+    this.velocity = p5.Vector.random2D().mult(random(0.5, 2));
+    this.lifespan = 255; // Vida inicial
+  }
+
+  update() {
+    this.position.add(this.velocity);
+    this.lifespan -= 2;
+  }
+  
+  applyForce(force) {
+    this.velocity.add(force);
+  }
+
+  display() {
+    // Este método es sobrescrito por las subclases
+  }
+
+  isDead() {
+    return this.lifespan < 0;
+  }
+}
+```
+
+```emitter.js
+class Emitter {
+  constructor(x, y) {
+    this.position = createVector(x, y);
+    this.particles = [];
+  }
+
+  addParticle(type) {
+    let newParticle;
+    if (type === 1) {
+      newParticle = new Heart(this.position.x, this.position.y);
+    } else if (type === 2) {
+      newParticle = new Snowflake(this.position.x, this.position.y);
+    } else if (type === 3) {
+      newParticle = new AutumnLeaf(this.position.x, this.position.y);
+    } else if (type === 4) {
+      newParticle = new Bubble(this.position.x, this.position.y);
+    }
+    this.particles.push(newParticle);
+  }
+
+  run() {
+    for (let i = this.particles.length - 1; i >= 0; i--) {
+      let p = this.particles[i];
+
+      // Calcular la fuerza de atracción del mouse
+      let mouse = createVector(mouseX, mouseY);
+      let attractionForce = p5.Vector.sub(mouse, p.position);
+      attractionForce.normalize();
+      attractionForce.mult(0.5); // Ajusta la intensidad de la fuerza
+
+      p.applyForce(attractionForce); // Aplicar la fuerza
+      p.update();
+      p.display();
+
+      if (p.isDead()) {
+        this.particles.splice(i, 1);
+      }
+    }
+  }
+}
+```
+
+La siguiente es la estrucutra base de cada tipo de particula, solo pondré una, sin embargo hay más.
+
+```heart.js
+class Heart extends Particle {
+  constructor(x, y) {
+    super(x, y);
+    this.color = color(random(150, 255), 0, random(150, 255));
+  }
+
+  display() {
+    let size = map(this.lifespan, 255, 0, 0, 50);
+    fill(this.color, this.lifespan);
+    noStroke();
+    
+    // Draw heart shape
+    beginShape();
+    vertex(this.position.x, this.position.y);
+    bezierVertex(this.position.x - size / 2, this.position.y - size / 2, this.position.x - size, this.position.y + size / 3, this.position.x, this.position.y + size);
+    bezierVertex(this.position.x + size, this.position.y + size / 3, this.position.x + size / 2, this.position.y - size / 2, this.position.x, this.position.y);
+    endShape(CLOSE);
+  }
+}
+```
 
 
