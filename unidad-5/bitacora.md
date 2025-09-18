@@ -861,7 +861,7 @@ class Heart extends Particle {
   }
 }
 ```
-#Justificación
+# Autoevaluación
 Considero que mi nota es **5**.
 
 * **1er componente:** Realicé y documenté el debido proceso de la etapa de investigación (actividad 2). Los conocimientos obtenidos me sirvieron y fueron aplicados en la fase de `apply`, de donde implementé los conceptos de creación y destrucción de las partículas, que fueron recurrentes en todos los ejemplos.
@@ -876,3 +876,4 @@ Considero que mi nota es **5**.
     * **Unidad 4:** Sistema de partículas. Al ser lo principal en este `apply`, es la base de todo el proyecto.
 
 * **4to componente:** Probé la obra muchas veces y fui encontrando algunos errores. Sin embargo, fueron solucionados. Los errores se presentaban mayormente con el control del tamaño de las partículas, que hacían uso del `lifespan`, y al cambiar el `lifespan` empezaban a tomar formas y posiciones extrañas.
+
