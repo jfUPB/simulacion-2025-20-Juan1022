@@ -32,3 +32,68 @@ Leyendo sobre steering forces, entendí que básicamente son fuerzas “inventad
 La diferencia con lo que ya habíamos visto en simulaciones (tipo gravedad, atracción, etc.) es que esas fuerzas afectan a todos los objetos por igual y de manera externa. En cambio, la steering force es personal: depende del objetivo del agente, de si quiere buscar algo, escapar o seguir un camino. Me gustó eso porque lo hace parecer más “inteligente” y no solo un objeto que reacciona a lo que hay alrededor.
 
 También descubrí que todo esto viene del trabajo de Craig Reynolds en los años 80. Él creó los famosos Boids, que son pájaros virtuales que vuelan en bandada con solo unas cuantas reglas locales (separarse, alinearse y cohesionarse). Lo que me sorprendió es que con reglas tan simples y steering forces, el movimiento colectivo se ve natural, casi biológico. O sea, no hay un líder diciéndoles qué hacer, cada uno sigue sus reglas y de ahí sale el comportamiento del grupo.
+
+# Actividad 3
+
+Evaluando el codigo princpial de Flow Fields.
+
+1. Explica brevemente la estructura de datos usada para el campo de flujo y cómo se generan sus vectores.
+
+2. Describe con tus palabras cómo un agente utiliza el campo para calcular su fuerza de dirección.
+
+3. Lista los parámetros clave identificados (resolución, maxspeed, maxforce).
+
+4. Describe la modificación que realizaste al código y explica detalladamente el efecto que tuvo en el movimiento y comportamiento colectivo de los agentes. Incluye una captura de pantalla o GIF si ilustra bien el cambio. Muestra el fragmento de código modificado.
+
+# RESPUESTA
+
+**Respuesta #1**
+
+El campo de flujo está representado como una rejilla 2D (grid) de vectores. En el código original cada celda contiene un vector (normalmente una dirección) que describe “la corriente” en esa porción del espacio. Los índices de la rejilla se calculan a partir de la posición del agente dividiendo por la escala (resolución) del campo.
+
+Los vectores se generan evaluando una función de ruido/seno/ruido Perlin u otra fórmula suave en cada celda para obtener un ángulo y convertirlo en un vector (cos(ang), sin(ang)). Eso produce un campo suave de direcciones en toda la pantalla: cada celda almacena un vector unitario que indica la dirección preferida en esa zona.
+
+
+**Respuesta #2**
+
+El agente primero revisa en qué celda del campo está parado. Luego, toma el vector de esa celda como si fuera “la recomendación” del entorno. Ese vector se convierte en su dirección deseada. Después calcula su steering force restando la velocidad actual de esa dirección deseada. Eso lo obliga a corregir su rumbo poco a poco, sin cambiar de manera brusca. Al final, limita esa fuerza con maxforce para que no sea demasiado exagerada y mantiene la velocidad bajo maxspeed.
+
+
+**Respuesta #3**
+
+**- Resolución:** define el tamaño de las celdas de la grilla. Si la resolución es baja, hay pocas celdas y el flujo se ve más simple; si es alta, el campo es más detallado.
+
+**- maxspeed:** la velocidad máxima que puede alcanzar un agente. Evita que salgan disparados de forma irreal.
+
+**- maxforce:** la fuerza máxima de giro o corrección. Controla qué tan brusco o suave es el cambio de dirección cuando el agente se ajusta al vector del flujo.
+
+
+**Respuesta #4**
+
+<img width="800" height="292" alt="image" src="https://github.com/user-attachments/assets/21def6bf-118a-465f-af9f-3278f49aa723" />
+
+Al multiplicar el ángulo, los vectores cambian más rápido y los agentes se mueven con giros más bruscos, como si la corriente tuviera remolinos.
+El comportamiento colectivo se vuelve más caótico
+
+``` 
+let angle = map(noise(xoff, yoff), 0, 1, 0, TWO_PI*5);
+this.field[i][j] = p5.Vector.fromAngle(angle);
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
