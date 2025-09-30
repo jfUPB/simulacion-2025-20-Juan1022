@@ -20,6 +20,15 @@ Esta parte del video me hizzo darme cuenta como los artistas han estado evolucio
 
 En esta actividad quiero que investigues alrededor de estas dos preguntas:
 
-¿Qué es una fuerza de dirección (steering force)?
-¿Qué diferencia tiene este tipo de fuerza con las que ya hemos estudiado en el contexto de la simulación de agentes?
-¿Qué relación tiene la steering force con Craig Reynolds y su trabajo en simulación de comportamiento animal?
+- ¿Qué es una fuerza de dirección (steering force)?
+
+- ¿Qué diferencia tiene este tipo de fuerza con las que ya hemos estudiado en el contexto de la simulación de agentes?
+
+- ¿Qué relación tiene la steering force con Craig Reynolds y su trabajo en simulación de comportamiento animal?
+
+## RESPUESTA
+Leyendo sobre steering forces, entendí que básicamente son fuerzas “inventadas” que usamos para guiar a un agente hacia donde queremos que vaya. No son como la gravedad o la fricción que vienen del entorno, sino que nacen de la “intención” del propio agente. La fórmula es sencilla: velocidad deseada menos la velocidad actual, y eso nos da el empujoncito que el agente necesita para ajustar su rumbo.
+
+La diferencia con lo que ya habíamos visto en simulaciones (tipo gravedad, atracción, etc.) es que esas fuerzas afectan a todos los objetos por igual y de manera externa. En cambio, la steering force es personal: depende del objetivo del agente, de si quiere buscar algo, escapar o seguir un camino. Me gustó eso porque lo hace parecer más “inteligente” y no solo un objeto que reacciona a lo que hay alrededor.
+
+También descubrí que todo esto viene del trabajo de Craig Reynolds en los años 80. Él creó los famosos Boids, que son pájaros virtuales que vuelan en bandada con solo unas cuantas reglas locales (separarse, alinearse y cohesionarse). Lo que me sorprendió es que con reglas tan simples y steering forces, el movimiento colectivo se ve natural, casi biológico. O sea, no hay un líder diciéndoles qué hacer, cada uno sigue sus reglas y de ahí sale el comportamiento del grupo.
