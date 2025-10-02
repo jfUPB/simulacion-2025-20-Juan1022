@@ -106,6 +106,11 @@ Las particulas se quedaban atrapadas en los bordes lo que hacia que se viera tos
 Tambien añadí un lider que hace que cada vez que doy click uso uno de los conceptos de flocking para agruparlos.
 
 
+Ya con todos esto cambios este es el resultado final, hubo cosas que me quedaron pendientes por implementar y es que generén lineas por donde vayan pasando dependiendo de su frecuencia para moldear el grosor de cada una.
+
+
+
+
 
 
 
