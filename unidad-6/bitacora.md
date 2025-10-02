@@ -80,6 +80,38 @@ let angle = map(noise(xoff, yoff), 0, 1, 0, TWO_PI*5);
 this.field[i][j] = p5.Vector.fromAngle(angle);
 ```
 
+# Apply
+
+## Ideación
+
+### Primera Idea
+Mis primeras ideas estaban condicionadas en que no quería hacer nada con partículas. Sin embargo, luego de mucho pensar, no se me ocurrió cómo relacionar los conceptos de flow field y flocking a algo fuera de esto. La mayoría de ejemplos eran así: los del libro eran más o menos, en esencia, partículas, y los de Tyler eran algo parecido a partículas pintando. Tras mi fracaso con esta condición, decidí usarlas.
+
+Mi primera idea era hacer una red neuronal inspirada en un proyecto que realizó Tyler usando "random angle per vector". Por esta red neuronal, creada desde esta misma lógica, pasarían partículas recorriéndolas y ubicándose en distintas posiciones del canvas, las cuales serían las tareas que tengo por hacer. El usuario añadiría las tareas que tiene por hacer y, de esta manera, la distribución siempre sería diferente. También, el usuario iba a poder modificar la "importancia" de la tarea, y esta iba modificando el flujo para generar atracción en cierta tarea u otra. Esto era en base a una canción que se usa para estudiar, donde solo hay un beat. Sin embargo, tras presentarle la idea al profe, me di cuenta de que esto debía surgir como otro instrumento visual, y lo mío, aunque tenía coherencia con lo que genera la canción, no se estaba integrando junto con ella.
+
+<img width="1133" height="633" alt="image" src="https://github.com/user-attachments/assets/5d1d38ec-3ac4-4063-89a2-e52864da24c0" />
+
+### Segunda Idea (Ganadora).
+Tras la interención del profe cambié de idea y de canción, entonces trabajé con una canción que se llama Down By the river que hace parte de la banda sonora de Baldurs Gate 3 y está presente en el editor de personajes, esto me conecto con dos cosas, la primera era que relacioné los flow fields a rios, segundo al estar en el edito de personajes pensé en que el usuario podria modificar valores para hacer modificar su propia obra, esto conectaba con lo que habia dicho el profe algunas clases atrás, por lo que empecé el proceso.
+
+<img width="895" height="494" alt="image" src="https://github.com/user-attachments/assets/89e55933-f45a-46f4-b96e-ae03a7dc204d" />
+
+En mis primeros experimentos descrubrí que podia mapear las frecuencias de la canción, sabiendo categoricé 5 tipos de particulas desde los mas graves a los mas agudos y a cada una le asigné un color, de esta manera las caritas abririán la boca cuando estuviera presente el rango asignado.
+
+Ya para este punto tenia el funcionamiento bien planteado y la estetica que queria transmitir, sin emabrgo tenia un problema:
+
+<img width="142" height="401" alt="image" src="https://github.com/user-attachments/assets/9e6a6e7d-e7cc-418a-a2ba-e7225acb4202" />
+
+Las particulas se quedaban atrapadas en los bordes lo que hacia que se viera tosco, entonces lo primero que se me ocurrió fué agrandar el lienzo, pero esto no solucionaria nada ya que la canción dura 2 minutos y en esos 2 minutos volveria a pasar, asi que para hacerlo mas fluido acercandome a las simulaciones de un rio, hice que al atravesas el lienzo saliera al lado contrario de este mismo, asi podia generar bucles.
+Tambien añadí un lider que hace que cada vez que doy click uso uno de los conceptos de flocking para agruparlos.
+
+
+
+
+
+
+
+
 
 
 
