@@ -123,7 +123,7 @@ let fft;
 let factorRuido = 0.005; 
 let tiempoOffset = 0; 
 let lideres = []; 
-let isPaused = false; // 🚨 NUEVO: Estado de pausa
+let isPaused = false; // Estado de pausa
 
 // Variables de Flow Field
 let flowfield; 
@@ -281,7 +281,7 @@ function updateFlowField() {
 function draw() {
   background(240, 50); 
   
-  // 🚨 Toda la lógica de movimiento, audio y tiempo solo se ejecuta si NO está pausado.
+  // Toda la lógica de movimiento, audio y tiempo solo se ejecuta si NO está pausado.
   if (!isPaused) {
     updateFlowField(); 
     
@@ -382,7 +382,7 @@ function mousePressed() {
      lideres.push(new Lider(mouseX, mouseY));
   }
   
-  // 🚨 SI ESTÁ PAUSADO Y SE CAMBIÓ EL COLOR, FORZAMOS UN REDIBUJADO
+  //  SI ESTÁ PAUSADO Y SE CAMBIÓ EL COLOR, FORZAMOS UN REDIBUJADO
   if (isPaused && particleClicked) {
       redraw();
   }
@@ -410,14 +410,14 @@ function resetSketch() {
 class Lider {
   constructor(x, y) {
     this.pos = createVector(x, y);
-    // 🚨 Duración modificable aquí: 200 frames (aproximadamente 3-4 segundos)
+    //  Duración modificable aquí: 200 frames (aproximadamente 3-4 segundos)
     this.maxLifetime = 200; 
     this.lifetime = this.maxLifetime;
     this.baseWidth = 30; // Ancho base de la "fogata"
     this.maxHeight = 60; // Altura máxima de la "fogata"
   }
 
-  // 🚨 Dónde modificar la duración:
+  //  Dónde modificar la duración:
   // Cambia el valor de 'this.maxLifetime' arriba. 
   // Un valor de 200 = unos 3-4 segundos a 60 fps.
 
@@ -659,7 +659,49 @@ class Gusano {
 
 
 
+# Autoevaluación
+Siento que merezco un **4.2**
 
+Cumplí con 4 de las 5 actividades requeridas. Respecto a la cuarta actividad, aunque la documentación formal del proceso no fue completada, la investigación y la experimentación asociada se llevaron a cabo de manera efectiva y están plenamente integradas en el código funcional del proyecto. La implementación técnica demuestra el dominio conceptual y la verificación de los algoritmos de la unidad.
+
+## Sustentación Técnica
+
+## 1. Investigación y Experimentación
+El proyecto se basa en la implementación práctica de los algoritmos de movimiento, demostrando la comprensión de su interacción:
+
+**Flow Field & Separación (Flocking):** La fuerza principal proviene del Flow Field, mientras que la regla de Separación es crucial para la experiencia de usuario. Mantiene a los gusanos espaciados, lo que permite al usuario interactuar con cada agente individualmente.
+
+**Reactividad Comportamental:** El análisis de audio (FFT) se mapeó directamente a un parámetro de comportamiento del agente (ej., el grosor o la vibración del cuerpo), probando la conexión directa entre la energía de la banda de frecuencia y la visualización.
+
+## 2. Intención y Diseño (Enfoque Temporal)
+El concepto central es la "Coreografía Sonora Temporal", priorizando el entretenimiento y el dinamismo.
+
+**Enfoque de Entretenimiento:** El diseño busca activamente mantener el interés del usuario durante los 2 minutos de la canción a través de múltiples puntos de interacción y un movimiento constante.
+
+**Diseño de Interacción:** La interactividad convierte al usuario en el Director Visual:
+
+- Arrastre del Mouse: Permite moldear y dirigir las corrientes del Flow Field en tiempo real.
+
+- Clic en el Gusano: Permite al usuario manipular el color y la reactividad sonora de ese agente, convirtiéndolo en un punto focal.
+
+## 3. Aplicación y Optimización
+La calidad del proyecto reside en la estabilidad y la síntesis de fuerzas para un entorno de alto movimiento.
+
+**Sistema de Fuerzas Avanzado:** La simulación acumula y gestiona la interacción de múltiples fuerzas en cada frame: steerFlowField (guía), separate (separación social), Lider (atracción efímera) y noise() (caos).
+
+**Optimización para Fluidez:**
+
+Se implementó una velocidad mínima de movimiento forzada para cada gusano, asegurando que la banda nunca se estanque y la simulación se sienta constantemente viva.
+
+El rastro efímero del gusano (su cuerpo de círculos solapados) se borra en cada frame, manteniendo la pantalla limpia y el rendimiento alto.
+
+**Integración de Unidades Anteriores**
+
+Ruido Perlin: Es fundamental para generar la base orgánica del Flow Field.
+
+Sistemas de Partículas: La arquitectura de la clase Gusano y la gestión del rastro temporal aplican los principios de esta unidad.
+
+**La pieza final es estable, expresiva y logra su objetivo primario de mantener el interés del usuario a través de la manipulación visual de la música y del entorno dinámico.**
 
 
 
