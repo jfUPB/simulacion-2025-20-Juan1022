@@ -53,6 +53,22 @@ Luego de revisarlos y ver la viabilidad de cada uno, me decante por:
 > Aquí simplemente se irán distanciando las letras.
 
 
+## Actividad 2.
+
+1. Ejemplos basicos para entender elementos de Matter.js, realicé 2 ejemplos uno para explorar Creación de formas, comportamiento de cuerpos cayendo, constraints, bodies.
+
+Para esto me basé en 2 ejemplos "Beach Balls" y "Slingshot Game".
+
+### Experimento 1
+
+En este experimento creé un motor con gravedad y le inyecte círculos que rebotan. Es una prueba básica para ver cómo se crean formas y como se implementa la gravedad en un mundo usando matter.js.Lo divertido aquí es que las pelotas tienen propiedades mcomo density y restitution, así que el rebote y las colisiones son dinámicas.
+
+``` Experimento 1
+
+```
+
+
+
 
 
 
