@@ -64,8 +64,132 @@ Para esto me basé en 2 ejemplos "Beach Balls" y "Slingshot Game".
 En este experimento creé un motor con gravedad y le inyecte círculos que rebotan. Es una prueba básica para ver cómo se crean formas y como se implementa la gravedad en un mundo usando matter.js.Lo divertido aquí es que las pelotas tienen propiedades mcomo density y restitution, así que el rebote y las colisiones son dinámicas.
 
 ``` Experimento 1
+// Alias de los módulos de Matter.js
+const { Engine, World, Bodies, Mouse, MouseConstraint } = Matter;
+
+let engine;
+let world;
+let balls = [];     // Array para almacenar las pelotas de playa
+let ground;         // Cuerpo estático (el suelo)
+let mConstraint;    // Restricción del ratón para interactuar
+
+function setup() {
+  createCanvas(600, 400);
+
+  // 1. Configuración del Motor (Engine)
+  engine = Engine.create();
+  world = engine.world;
+  
+  // 2. Crear el Suelo Estático
+  let groundOptions = {
+    isStatic: true,
+    friction: 0.8,
+    restitution: 0.3
+  };
+  // Cuerpo estático en la parte inferior del canvas
+  ground = Bodies.rectangle(width / 2, height - 10, width, 20, groundOptions);
+  World.add(world, ground);
+
+  // 3. Implementar MouseConstraint (Interacción)
+  // Objeto ratón de Matter.js que rastrea el mouse en el canvas
+  let canvasMouse = Mouse.create(canvas.elt);
+  canvasMouse.pixelRatio = pixelDensity(); // Ajuste para pantallas de alta resolución
+
+  let mouseOptions = {
+    mouse: canvasMouse,
+    constraint: { stiffness: 0.2, render: { visible: false } }
+  };
+  // Crea la restricción que permite "agarrar" los cuerpos
+  mConstraint = MouseConstraint.create(engine, mouseOptions);
+  World.add(world, mConstraint);
+  
+  // 4. Crear Pelotas de Playa Iniciales
+  for (let i = 0; i < 10; i++) {
+    addBeachBall(random(50, width - 50), random(-200, 0));
+  }
+}
+
+function draw() {
+  background(173, 216, 230); // Fondo azul claro
+
+  // 5. Ejecutar la Simulación de Física
+  // Esto actualiza posiciones, velocidades y chequea colisiones
+  Engine.update(engine);
+
+  // Dibujar cuerpos
+  drawGround();
+  
+  for (let ball of balls) {
+    ball.show();
+  }
+}
+
+// 6. Lógica de Interacción con el Mouse: Crear o Agarrar
+function mousePressed() {
+  // Solo crea una nueva pelota si el MouseConstraint NO está agarrando un cuerpo.
+  // Esto permite que el ratón agarre y arrastre cuerpos existentes.
+  if (mConstraint.body == null) {
+    if (mouseX > 0 && mouseX < width && mouseY > 0 && mouseY < height) {
+      addBeachBall(mouseX, mouseY);
+    }
+  }
+}
+
+// ----------------------------------------------------
+// Clases y Funciones de Dibujo
+// ----------------------------------------------------
+
+function addBeachBall(x, y) {
+  let r = random(20, 35);
+  let b = new BeachBall(x, y, r);
+  balls.push(b);
+  World.add(world, b.body);
+}
+
+class BeachBall {
+  constructor(x, y, r) {
+    this.r = r;
+    
+    let options = {
+      // Alto rebote para el efecto "playa"
+      restitution: 0.95, 
+      // Baja densidad para el efecto "ligero"
+      density: 0.0005, 
+      friction: 0.01 
+    };
+    this.body = Bodies.circle(x, y, r, options);
+    this.color = color(random(255), random(255), random(255));
+  }
+
+  show() {
+    let pos = this.body.position;
+    let angle = this.body.angle;
+
+    push();
+    translate(pos.x, pos.y);
+    rotate(angle);
+
+    // Dibujo de la pelota
+    fill(this.color);
+    stroke(0);
+    strokeWeight(2);
+    ellipse(0, 0, this.r * 2);
+
+    pop();
+  }
+}
+
+function drawGround() {
+  let pos = ground.position;
+  rectMode(CENTER);
+  noStroke();
+  // Color marrón/arena para el suelo
+  fill(194, 178, 128); 
+  rect(pos.x, pos.y, width, 20);
+}
 
 ```
+
 
 
 
