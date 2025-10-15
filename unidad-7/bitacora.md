@@ -63,6 +63,10 @@ Para esto me basé en 2 ejemplos "Beach Balls" y "Slingshot Game".
 
 En este experimento creé un motor con gravedad y le inyecte círculos que rebotan. Es una prueba básica para ver cómo se crean formas y como se implementa la gravedad en un mundo usando matter.js.Lo divertido aquí es que las pelotas tienen propiedades mcomo density y restitution, así que el rebote y las colisiones son dinámicas.
 
+
+<img width="715" height="458" alt="image" src="https://github.com/user-attachments/assets/9a926f33-4afd-4dc2-91f9-8da51a178901" />
+
+
 ``` Experimento 1
 // Alias de los módulos de Matter.js
 const { Engine, World, Bodies, Mouse, MouseConstraint } = Matter;
@@ -191,8 +195,112 @@ function drawGround() {
 ```
 
 
+### Experimento 2: Crear Constraints
+
+En este experimento volví a crear un motor con gravedad y uní una pesa a un punto fijo con una cuerda. Es una prueba básica para ver cómo se conectan las formas y cómo se controla el movimiento en lugar de solo dejar que caiga, usando el Constraint de Matter.js. Lo divertido aquí es que el péndulo tiene una restricción rígida, así que la pesa siempre debe mantener la misma distancia del punto de anclaje, y por eso la oscilación es tan precisa y el movimiento es totalmente dinámico.
+
+<img width="702" height="431" alt="image" src="https://github.com/user-attachments/assets/ca3b272c-f57a-4b9f-a912-4efa32ad4647" />
 
 
+``` Experimento 2
+// Alias de módulos de Matter.js
+const { Engine, World, Bodies, Constraint, Mouse, MouseConstraint } = Matter;
+
+let engine;
+let world;
+let bob;            // El cuerpo del péndulo (la pesa)
+let constraint;     // La "cuerda" (Constraint)
+let mConstraint;    // Para agarrar y mover con el mouse
+let canvas;         // Referencia al canvas de p5
+
+function setup() {
+  canvas = createCanvas(600, 400);
+
+  // 1. Configuración del Motor
+  engine = Engine.create();
+  world = engine.world;
+  world.gravity.y = 0.8; // Gravedad ligeramente ajustada para la oscilación
+
+  // Solución para que el mouse funcione: cuerpo estático invisible
+  let ceiling = Bodies.rectangle(width / 2, -50, width, 100, { 
+    isStatic: true,
+    render: { visible: false } 
+  });
+  World.add(world, ceiling);
+  
+  // 2. Crear la Pesa (Bob)
+  bob = Bodies.circle(300, 250, 25, { restitution: 0.8, friction: 0.01 });
+  World.add(world, bob);
+
+  // 3. CREAR LA RESTRICCIÓN (CONSTRAINT)
+  let pivotPoint = { x: width / 2, y: 50 }; // El punto fijo (anclaje)
+  
+  let constraintOptions = {
+    pointA: pivotPoint,         // El punto fijo del que cuelga
+    bodyB: bob,                 // El objeto que cuelga (la pesa)
+    stiffness: 0.9,             // Rigidez (cuerda que no se estira)
+    length: 200                 // Largo de la "cuerda"
+  };
+  constraint = Constraint.create(constraintOptions);
+  World.add(world, constraint);
+
+  // 4. Implementar MouseConstraint (para poder arrastrar)
+  let canvasMouse = Mouse.create(canvas.elt); 
+  canvasMouse.pixelRatio = pixelDensity();
+  
+  let mouseOptions = {
+    mouse: canvasMouse,
+    constraint: { 
+      stiffness: 0.2, 
+      render: { 
+        visible: true,          // Hacemos visible la línea de agarre
+        lineWidth: 3,           
+        strokeStyle: '#00FF00'  
+      }
+    }
+  };
+  mConstraint = MouseConstraint.create(engine, mouseOptions);
+  World.add(world, mConstraint);
+}
+
+function draw() {
+  background(240); 
+  Engine.update(engine);
+
+  drawConstraint(constraint);
+  drawBob(bob);
+  drawPivot(constraint.pointA);
+}
+
+// Funciones de Dibujo
+
+function drawConstraint(c) {
+  let posA = c.pointA;
+  let posB = c.bodyB.position;
+    
+  stroke(50); 
+  strokeWeight(2);
+  line(posA.x, posA.y, posB.x, posB.y);
+}
+
+function drawBob(body) {
+  let pos = body.position;
+  let r = body.circleRadius;
+
+  push();
+  translate(pos.x, pos.y);
+  fill(0, 150, 255); // Pesa azul
+  stroke(0);
+  ellipse(0, 0, r * 2); 
+  pop();
+}
+
+function drawPivot(pos) {
+  fill(255, 0, 0); // Anclaje rojo
+  noStroke();
+  ellipse(pos.x, pos.y, 10);
+}
+``` 
 
 
 
