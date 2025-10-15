@@ -302,6 +302,27 @@ function drawPivot(pos) {
 }
 ``` 
 
+### Conceptos Basicos de Matter.js
+
+Se me hizo facil ver los elementos relacionandolos a creaciónd e videojuegos.
+
+**Engine (Motor):** Es el que hace todos los cálculos de física en cada momento: cuánta gravedad hay, dónde chocan las cosas y a qué velocidad deben moverse. Sin él, nada pasa.
+
+**World (Mundo):** Es el contenedor de todo. Aquí es donde agregas la gravedad, las paredes, los personajes y todos los objetos que van a interactuar. Es tu área de juego.
+
+**Body (Cuerpo):** Son los objetos que ves (círculos, cuadrados, etc.). Pueden ser dinámicos (se mueven, caen) o estáticos (están fijos, como el suelo o una pared).
+
+**Constraint (Vínculo):** Es una conexión que limita el movimiento. Lo usas para atar dos cuerpos entre sí (como en un auto) o para sujetar un cuerpo a un punto fijo (como la cadena de un péndulo o una bola de demolición).
+
+**MouseConstraint (Vínculo con el Mouse):** Es un tipo especial de Constraint que te permite agarrar cualquier Body con el ratón, moverlo y soltarlo, introduciendo una interacción directa con el mundo de física.
+
+### Problemas
+
+El mayor problema fue hacer que el ratón funcionara consistentemente. Aunque el código del MouseConstraint estaba ahí, al principio tuve dos fallos principales:
+
+**Conflicto de Clics:** El ratón no agarraba los objetos porque mi función mousePressed() se ejecutaba primero y creaba un círculo nuevo en lugar de dejarme interactuar con los que ya existían. Tuve que cambiar el código para que solo creara círculos si hacía clic en un espacio vacío.
+
+
 
 
 
