@@ -322,7 +322,440 @@ El mayor problema fue hacer que el ratón funcionara consistentemente. Aunque el
 
 **Conflicto de Clics:** El ratón no agarraba los objetos porque mi función mousePressed() se ejecutaba primero y creaba un círculo nuevo en lugar de dejarme interactuar con los que ya existían. Tuve que cambiar el código para que solo creara círculos si hacía clic en un espacio vacío.
 
+# Apply 🛠
+## Actividad 03 
+### Diseño
 
+Para esta etapa estaba deciciendo entre 2 palabras que me gustaron mucho de la fase de investigación, las cuales eran pills y bed, al final sentí que pills iba a ser mucho más divertido de hacer, entonces empecé a hacer bocetos sobre como seria la animación.
+
+><img width="330" height="142" alt="image" src="https://github.com/user-attachments/assets/d9bd2928-60fd-4e43-9684-388fbd3ff2ea" />
+> La idea por la cuál me decanté.
+
+
+A pesar de ya tener una vaga idea de por lo menos los elementos que estarián presente en la obra que serían agua y pastillas, debia explorar como seria la interacción de estos 2.
+
+
+<img width="1280" height="960" alt="image" src="https://github.com/user-attachments/assets/5eba7874-65b8-402d-af33-f81693dd2ea4" />
+
+## Palabra Elegida
+> # Pills
+
+## Concepto:¿Cómo la animación física representa el significado de la palabra?
+
+>En la palabra “Pills”, que significa pastillas en español, las letras “i” y “l” se representan en forma >de cápsulas, evocando la apariencia real de las pastillas. La interacción del usuario simula su proceso >de uso: al disolverse en agua, se activa una animación que reproduce la efervescencia característica de >este tipo de medicamentos. De esta forma, la palabra “Pills” adquiere una mayor fuerza visual y >conceptual, conectando directamente su significado con la obra.
+
+## Aspectos técnicos 
+
+>### **1. Formación de las Letras con Matter.js**
+>
+>**P y S (Estructuras Estáticas):** Se implementaron como pequeños rectángulos estáticos                   >(Bodies.rectangle, isStatic: true) que funcionan como marcos invisibles para dibujar las letras con p5.js.
+>
+>**I y LL (Píldoras Dinámicas):**  Son los únicos cuerpos con física activa. Se construyeron con >Bodies.circle (punto de la “I”) y Bodies.rectangle (líneas y “L”).
+>
+>**Vasos (Contenedores):**  Cada vaso se compone de tres cuerpos estáticos invisibles (dos paredes >inclinadas y una base) que limitan el movimiento de las píldoras y el agua.
+>
+> ### **2. Propiedades Físicas Principales** 
+>
+>**Inicio Estático:**  Las píldoras comienzan con isStatic: true y se activan al hacer clic                >(Body.setStatic(false)).
+>
+>**Rigidez Total:**  inertia: Infinity evita deformaciones o rotaciones indeseadas, conservando la forma >tipográfica.
+>
+>**Flotabilidad Simulada:**  Al sumergirse bajo el nivel del agua, se aplica una ligera fuerza ascendente  >(Body.applyForce) que imita el efecto de efervescencia.
+>
+>**Baja Fricción:**  frictionAir reducido para un movimiento más suave y natural.
+>
+>### **3. Interacción y Restricciones** 
+>No se emplearon Constraints explícitos. La interacción se maneja con MouseConstraint, permitiendo al >usuario arrastrar las píldoras incluso después de caer en el vaso.
+
+## Código final.
+
+``` PILLS:CODE
+const { Engine, World, Bodies, Body, Mouse, MouseConstraint } = Matter;
+
+let engine;
+let world;
+let mConstraint;
+let pills = [];
+let statics = [];
+let glassesData = [];
+
+let canvasWidth = 900;
+let canvasHeight = 600;
+const GLASS_PROPS = {
+    w: 80,
+    h: 120,
+    baseY: 450,
+    waterLevelYOffset: 20
+};
+
+const LETTER_SPACING = 120;
+
+const PILLS_Y_CENTER = GLASS_PROPS.baseY - GLASS_PROPS.h - 50;
+
+const STATIC_LETTER_Y_OFFSET = 110;
+
+let bubbles = [];
+
+class Burbuja {
+    constructor(x, y) {
+        this.x = x + random(-4, 4);
+        this.y = y;
+        this.r = random(1.5, 4);
+        this.life = 200;
+        this.speedY = random(0.8, 2.5);
+    }
+
+    move() {
+        this.y -= this.speedY;
+        this.x += sin(frameCount * 0.1 * this.r * 0.2) * 0.5;
+        this.life -= 2.5;
+    }
+
+    show() {
+        noStroke();
+        fill(255, 255, 255, this.life);
+        ellipse(this.x, this.y, this.r * 2);
+    }
+
+    isFinished() {
+        return this.life < 0;
+    }
+}
+
+function setup() {
+    let canvas = createCanvas(canvasWidth, canvasHeight);
+    
+    textFont('Courier New');
+    textSize(100);
+
+    engine = Engine.create();
+    world = engine.world;
+    world.gravity.y = 1;
+
+    createPillsAndStatics();
+
+    let canvasMouse = Mouse.create(canvas.elt);
+    canvasMouse.pixelRatio = pixelDensity();
+    mConstraint = Matter.MouseConstraint.create(engine, {
+        mouse: canvasMouse,
+        constraint: {
+            stiffness: 0.2,
+            render: {
+                visible: false
+            }
+        }
+    });
+    World.add(world, mConstraint);
+    
+    let floor = Bodies.rectangle(width / 2, height + 10, width, 20, { isStatic: true });
+    World.add(world, floor);
+}
+
+function mousePressed() {
+    for (let p of pills) {
+        let pos = p.body.position;
+        let r = p.type === 'roundPill' ? p.body.circleRadius : 25;
+        let d = dist(mouseX, mouseY, pos.x, pos.y);
+
+        if (d < r * 2 && p.body.isStatic) {
+            Body.setStatic(p.body, false);
+            p.isPillActive = true;
+            
+            return;
+        }
+    }
+}
+
+function createGlass(x, yBase) {
+    const w = GLASS_PROPS.w;
+    const h = GLASS_PROPS.h;
+    
+    const baseW = w * 0.8;
+    let baseBody = Bodies.rectangle(x, yBase + 10, baseW, 20, { isStatic: true, label: 'glass-wall' });
+    
+    const wallThickness = 15;
+    const wallHeight = h;
+    const angleLeft = -0.1;
+    const wallYCenter = yBase - h / 2 + 10;
+    const wallXOffset = (w / 2) * 0.9;
+    
+    let wallLeft = Bodies.rectangle(x - wallXOffset, wallYCenter, wallThickness, wallHeight, {
+        isStatic: true,
+        angle: angleLeft,
+        label: 'glass-wall'
+    });
+    
+    const angleRight = 0.1;
+    let wallRight = Bodies.rectangle(x + wallXOffset, wallYCenter, wallThickness, wallHeight, {
+        isStatic: true,
+        angle: angleRight,
+        label: 'glass-wall'
+    });
+
+    World.add(world, [baseBody, wallLeft, wallRight]);
+    
+    return {
+        x: x,
+        yBase: yBase,
+        w: w,
+        h: h,
+        waterLevelY: yBase - h + GLASS_PROPS.waterLevelYOffset
+    };
+}
+
+function createPillsAndStatics() {
+    const ELEMENTS = [
+        { letter: 'P', type: 'STATIC' },
+        { letter: 'I', type: 'DYNAMIC_I' },
+        { letter: 'L', type: 'DYNAMIC_L1' },
+        { letter: 'L', type: 'DYNAMIC_L2' },
+        { letter: 'S', type: 'STATIC' }
+    ];
+    
+    const numElements = ELEMENTS.length;
+    const gap = LETTER_SPACING;
+    const totalWidth = (numElements - 1) * gap;
+    const startX = (width - totalWidth) / 2;
+    
+    const letterSize = 100;
+    
+    const L_PILL_HEIGHT = 100;
+    const I_LINE_HEIGHT = 70;
+    const I_DOT_RADIUS = 15;
+
+    const pillOptions = {
+        isStatic: true,
+        frictionAir: 0.02,
+        density: 0.001,
+        restitution: 0.1,
+        inertia: Infinity,
+        angularDamping: 0
+    };
+
+    for (let i = 0; i < numElements; i++) {
+        let currentX = startX + i * gap;
+        let element = ELEMENTS[i];
+        
+        let glassData = null;
+
+        if (element.type.startsWith('DYNAMIC')) {
+            glassData = createGlass(currentX, GLASS_PROPS.baseY);
+            glassesData.push(glassData);
+        }
+        
+        if (element.type === 'STATIC') {
+            let staticBody = Bodies.rectangle(currentX, PILLS_Y_CENTER + 5 + STATIC_LETTER_Y_OFFSET, 1, 1, {
+                isStatic: true,
+                isSensor: true,
+                label: element.letter
+            });
+            statics.push({ body: staticBody, letter: element.letter, size: letterSize, glassRef: glassData });
+            World.add(world, staticBody);
+            
+        } else if (element.type === 'DYNAMIC_I') {
+            let iDotBody = Bodies.circle(currentX, PILLS_Y_CENTER - 45, I_DOT_RADIUS, pillOptions);
+            let iLineBody = Bodies.rectangle(currentX, PILLS_Y_CENTER + 20, 15, I_LINE_HEIGHT, pillOptions);
+            
+            pills.push({ body: iDotBody, letter: 'i-dot', type: 'roundPill', color: color(255, 60, 60), isEffervescent: false, isPillActive: false, glassRef: glassData });
+            pills.push({ body: iLineBody, letter: 'i-line', type: 'capsule', color1: color(255, 192, 203), color2: color(255, 192, 203), isEffervescent: false, isPillActive: false, glassRef: glassData });
+            
+            World.add(world, [iDotBody, iLineBody]);
+            
+        } else if (element.type === 'DYNAMIC_L1' || element.type === 'DYNAMIC_L2') {
+            let angle = element.type === 'DYNAMIC_L1' ? -0.1 : 0.1;
+            let lBody = Bodies.rectangle(currentX, PILLS_Y_CENTER + 5, 15, L_PILL_HEIGHT, {...pillOptions, angle: angle});
+            
+            let color1 = element.type === 'DYNAMIC_L1' ? color(255, 0, 0) : color(50, 50, 255);
+            
+            pills.push({ body: lBody, letter: 'L', type: 'capsule', color1: color1, color2: color(255), isEffervescent: false, isPillActive: false, glassRef: glassData });
+            
+            World.add(world, lBody);
+        }
+    }
+}
+
+function draw() {
+    background(220, 220, 250);
+    Engine.update(engine);
+
+    drawWater();
+    drawGlass();
+
+
+    for (let s of statics) {
+        drawLetterBody(s, color(50));
+    }
+    
+    for (let p of pills) {
+        const g = p.glassRef;
+        
+        if (g) {
+            if (p.isPillActive && p.body.position.y >= g.waterLevelY && !p.isEffervescent) {
+                p.isEffervescent = true;
+                Body.applyForce(p.body, p.body.position, {x: 0, y: -0.01});
+            }
+        }
+        
+        drawPillBody(p);
+    }
+
+    for (let p of pills) {
+        let pos = p.body.position;
+        const g = p.glassRef;
+        
+        if (g) {
+            if (p.isEffervescent && pos.y >= g.waterLevelY - 50 && pos.x > g.x - g.w/2 && pos.x < g.x + g.w/2) {
+                if ((p.letter === 'i-line' || p.letter === 'L' || p.letter === 'i-dot') && frameCount % 3 === 0) {
+                    bubbles.push(new Burbuja(pos.x, pos.y + 10));
+                }
+                Body.applyForce(p.body, p.body.position, {x: random(-0.0001, 0.0001), y: -0.00001});
+            }
+        }
+    }
+
+    for (let i = bubbles.length - 1; i >= 0; i--) {
+        bubbles[i].move();
+        bubbles[i].show();
+        if (bubbles[i].isFinished()) {
+            bubbles.splice(i, 1);
+        }
+    }
+}
+
+function drawGlass() {
+    for (let g of glassesData) {
+        const x = g.x;
+        const w = g.w;
+        const h = g.h;
+        const yBase = g.yBase;
+        const topY = yBase - h;
+
+        push();
+        noFill();
+        stroke(100, 100, 150);
+        strokeWeight(4);
+        
+        beginShape();
+        vertex(x - w / 2, topY);
+        vertex(x + w / 2, topY);
+        vertex(x + w / 2 - 10, yBase);
+        vertex(x - w / 2 + 10, yBase);
+        endShape(CLOSE);
+        
+        line(x - w / 2 + 10, yBase, x + w / 2 - 10, yBase);
+        
+        pop();
+    }
+}
+
+function drawWater() {
+    for (let g of glassesData) {
+        const x = g.x;
+        const w = g.w;
+        const yBase = g.yBase;
+        const waterLevelY = g.waterLevelY;
+        
+        push();
+        noStroke();
+        fill(50, 150, 255, 180);
+        
+        beginShape();
+        vertex(x - w / 2, waterLevelY);
+        vertex(x + w / 2, waterLevelY);
+        vertex(x + w / 2 - 10, yBase);
+        vertex(x - w / 2 + 10, yBase);
+        endShape(CLOSE);
+        
+        pop();
+        
+        push();
+        stroke(255);
+        strokeWeight(2);
+        noFill();
+        beginShape();
+        curveVertex(x - w / 2, waterLevelY);
+        curveVertex(x - w / 2, waterLevelY);
+        curveVertex(x - w / 4, waterLevelY + sin(frameCount * 0.08) * 2);
+        curveVertex(x, waterLevelY + sin(frameCount * 0.08 + PI/2) * 2);
+        curveVertex(x + w / 4, waterLevelY + sin(frameCount * 0.08 + PI) * 2);
+        curveVertex(x + w / 2, waterLevelY);
+        curveVertex(x + w / 2, waterLevelY);
+        endShape();
+        pop();
+    }
+}
+
+function drawPillBody(pillObj) {
+    let pos = pillObj.body.position;
+    let angle = pillObj.body.angle;
+
+    push();
+    translate(pos.x, pos.y);
+    rotate(angle);
+    
+    noStroke();
+    rectMode(CENTER);
+
+    let baseAlpha = pillObj.body.isStatic ? 150 : 255;
+    
+    let alpha = baseAlpha;
+    if (pillObj.isEffervescent) {
+        alpha = map(sin(frameCount * 0.1), -1, 1, 200, 255);
+    }
+
+    if (pillObj.type === 'roundPill') {
+        let r = pillObj.body.circleRadius;
+        fill(red(pillObj.color), green(pillObj.color), blue(pillObj.color), alpha);
+        ellipse(0, 0, r * 2);
+        stroke(0, 0, 0, 80);
+        strokeWeight(1.5);
+        line(-r * 0.6, 0, r * 0.6, 0);
+        
+    } else if (pillObj.type === 'capsule') {
+        let w = 15;
+        let h = pillObj.body.bounds.max.y - pillObj.body.bounds.min.y;
+        let radius = w / 2;
+        let half_h = h / 2;
+        
+        fill(red(pillObj.color2), green(pillObj.color2), blue(pillObj.color2), alpha);
+        rect(0, 0, w, h, radius);
+
+        fill(red(pillObj.color1), green(pillObj.color1), blue(pillObj.color1), alpha);
+        rect(0, -half_h / 2, w, half_h + 1, radius, radius, 0, 0);
+        
+        stroke(0, 0, 0, 80);
+        strokeWeight(1.5);
+        line(-w / 2, 0, w / 2, 0);
+    }
+    
+    pop();
+}
+
+function drawLetterBody(letterObj, colorVal) {
+    let pos = letterObj.body.position;
+    let angle = letterObj.body.angle;
+    
+    push();
+    translate(pos.x, pos.y);
+    rotate(angle);
+    
+    textSize(letterObj.size);
+    textAlign(CENTER, CENTER);
+    fill(colorVal);
+    noStroke();
+    text(letterObj.letter, 0, letterObj.size * 0.05);
+    pop();
+}
+```
+## Captura de pantalla y video
+
+### Captura de pantalla.
+
+<img width="1121" height="751" alt="image" src="https://github.com/user-attachments/assets/133adba9-4c72-4069-b160-3c7f2f7c318e" />
+
+### GIF
+
+https://jumpshare.com/s/8KUSssbZrM7AVU7CORdN
 
 
 
