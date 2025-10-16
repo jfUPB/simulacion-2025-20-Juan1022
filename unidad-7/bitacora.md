@@ -755,8 +755,29 @@ function drawLetterBody(letterObj, colorVal) {
 
 ### GIF
 
-https://jumpshare.com/s/8KUSssbZrM7AVU7CORdN
+![Pills](https://github.com/user-attachments/assets/989e32f9-f1c9-4019-91c1-07b08ac5b12f)
 
+# Autoevaluación
+### Nota: 4.5
 
+> ## Investigación, Análisis e ideación.
+> Durante la investigación, prioricé comprender a fondo los conceptos presentes en los ejemplos propuestos en la unidad, tanto en el uso de técnicas visuales como en la aplicación de la libreria Matter.js dentro de p5.js
+>
+> A partir de esto, desarrollé mi propio proceso de ideación, acompañado de bocetos que documentan la evolución creativa de la obra, Estos, junto con los ejemplos técnicos estudiados, me permitieron enfocar y orientar de manera más clara la fase de Apply.
+> 
+
+> ## Matter.js: Fundamentos técnicos.
+> Durante esta actividad me aseguré de estudiarla y re estudiarla para poder aterrizar mis ideas conceptuales y hasta que punto podia llevar esta herramienta, lo que me llevó a tener una idea muy clara con lo que estaba trabajando.
+>
+> En la bitácora documento todo el proceso de **Experimentación práctica** , **Evidencia del funcionamiento** , **Comprensión de los elementos y conceptos**
+>
+> ## Fase de Apply
+>
+> En esta fase la cuál es la culminación de todo el proyecto se evidencia todo el proceso de estudio de esta libreria y de mi proceso de ideación.
+>
+> Cumplo con:
+> - Palabra elegida y conceptualización
+> - Implementaciones técnicas de Matter.js
+> - Entregables (Capturas, GIF, Código completo y funcional)
 
 
