@@ -758,7 +758,7 @@ function drawLetterBody(letterObj, colorVal) {
 ![Pills](https://github.com/user-attachments/assets/989e32f9-f1c9-4019-91c1-07b08ac5b12f)
 
 # Autoevaluación
-### Nota: 4.5
+### Nota: 4.8
 
 > ## Investigación, Análisis e ideación.
 > Durante la investigación, prioricé comprender a fondo los conceptos presentes en los ejemplos propuestos en la unidad, tanto en el uso de técnicas visuales como en la aplicación de la libreria Matter.js dentro de p5.js
@@ -779,5 +779,12 @@ function drawLetterBody(letterObj, colorVal) {
 > - Palabra elegida y conceptualización
 > - Implementaciones técnicas de Matter.js
 > - Entregables (Capturas, GIF, Código completo y funcional)
+
+## Conclusión
+
+Se realizaron todas las actividades estipuladas, evidenciando a través de la bitácora y del proyecto una comprensión tanto teórica como técnica de Matter.js.
+
+Si bien el proyecto final no incluye una gran cantidad de elementos de la librería, considero que los implementados son suficientes para demostrar un estudio profundo y completo de su funcionamiento. No obstante, estimo que mi calificación debería ser 4.8 en lugar de 5.0, ya que reconozco que pude haber incorporado más componentes de Matter.js dentro de la obra.
+
 
 
