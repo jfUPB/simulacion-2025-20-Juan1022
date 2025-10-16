@@ -369,6 +369,10 @@ A pesar de ya tener una vaga idea de por lo menos los elementos que estarián pr
 
 ## Código final.
 
+[P5.js code](https://editor.p5js.org/Juan1022/full/hKrKDHicD)
+
+
+
 ``` PILLS:CODE
 const { Engine, World, Bodies, Body, Mouse, MouseConstraint } = Matter;
 
@@ -785,6 +789,7 @@ function drawLetterBody(letterObj, colorVal) {
 Se realizaron todas las actividades estipuladas, evidenciando a través de la bitácora y del proyecto una comprensión tanto teórica como técnica de Matter.js.
 
 Si bien el proyecto final no incluye una gran cantidad de elementos de la librería, considero que los implementados son suficientes para demostrar un estudio profundo y completo de su funcionamiento. No obstante, estimo que mi calificación debería ser 4.8 en lugar de 5.0, ya que reconozco que pude haber incorporado más componentes de Matter.js dentro de la obra.
+
 
 
 
