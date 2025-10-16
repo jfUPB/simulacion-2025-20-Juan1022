@@ -2,7 +2,7 @@
 
 ## Actividad 1
 
-**- Analiza la técnica: para 3-4 ejemplos que te llamen la atención, describe brevemente cómo la manipulación visual de la palabra refuerza o representa su significado. ¿Qué elementos gráficos o tipográficos utiliza**
+**Analiza la técnica: para 3-4 ejemplos que te llamen la atención, describe brevemente cómo la manipulación visual de la palabra refuerza o representa su significado. ¿Qué elementos gráficos o tipográficos utiliza**
 
 >### **Vertigo**
 >
@@ -25,7 +25,7 @@
 > Este ejemplo me llamó mucho la atención porque, con solo jugar con la opacidad de las letras, logra transmitir un mensaje potente y profundamente narrativo, sin necesidad de imágenes, únicamente a través de las palabras.
 
 
-**-Genera tus propias ideas (estáticas):** elige 2-3 palabras diferentes. Para cada una, piensa y describe (o haz un boceto muy simple) cómo podrías representarla visualmente siguiendo el concepto “Word as Image”, sin pensar aún en animación o física. ¿Cómo alterarías las letras o la composición para evocar el significado?
+**Genera tus propias ideas (estáticas):** elige 2-3 palabras diferentes. Para cada una, piensa y describe (o haz un boceto muy simple) cómo podrías representarla visualmente siguiendo el concepto “Word as Image”, sin pensar aún en animación o física. ¿Cómo alterarías las letras o la composición para evocar el significado?
 
 Para esta actividad hice una lluvia de ideas con varios conceptos.
 
@@ -785,6 +785,7 @@ function drawLetterBody(letterObj, colorVal) {
 Se realizaron todas las actividades estipuladas, evidenciando a través de la bitácora y del proyecto una comprensión tanto teórica como técnica de Matter.js.
 
 Si bien el proyecto final no incluye una gran cantidad de elementos de la librería, considero que los implementados son suficientes para demostrar un estudio profundo y completo de su funcionamiento. No obstante, estimo que mi calificación debería ser 4.8 en lugar de 5.0, ya que reconozco que pude haber incorporado más componentes de Matter.js dentro de la obra.
+
 
 
 
