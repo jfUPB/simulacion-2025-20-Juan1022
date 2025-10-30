@@ -58,6 +58,9 @@ Adicionalmente, cada figura llevaría una pequeña antena oscilante cerca de su 
 
 ## Nota: **3.0**
 
-Mi nota es 3.0, debido a que realicé las 2 actividades de set and sekk completas y la autoevaluación. 
+Mi nota es 3.0, debido a que realicé las 2 actividades de set and sekk completas y la autoevaluación.
+
+A pesar de haber hecho la conceptualización del proyecto entero, no logré realizar la fase de apply.
+
 
 
