@@ -54,4 +54,10 @@ Mi intención fue construir una narrativa visual centrada en el conflicto entre 
 Adicionalmente, cada figura llevaría una pequeña antena oscilante cerca de su cabeza. Este detalle sutil, pero constante, tiene el objetivo de reforzar el visual, añadiendo un elemento hipnótico a la escena.
 
 
+# Autoevaluación
+
+## Nota: **3.0**
+
+Mi nota es 3.0, debido a que realicé las 2 actividades de set and sekk completas y la autoevaluación. 
+
 
